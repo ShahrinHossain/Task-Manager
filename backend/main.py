@@ -14,3 +14,8 @@ def get_tasks():
 def add_tasks(payload: dict = Body(...)):
     print(payload)
     return {"message": "successfully created"}
+
+@app.post("/add_taskss")
+def add_taskss(payload: dict = Body(...)):
+    print(payload)
+    return {"message": "successfully created"}
