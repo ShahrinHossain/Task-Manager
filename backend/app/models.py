@@ -15,4 +15,7 @@ class Task(BaseModel):
 class Tasks(BaseModel):
     tasks: List[Task]
 
+class StatusUpdate(BaseModel):
+    status: TaskStatus
+
 memory_db = {"tasks": []}
