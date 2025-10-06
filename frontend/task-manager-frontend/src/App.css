@@ -1,0 +1,30 @@
+body {
+  background-image: url('./assets/background.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  margin: 0;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.appname{
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: rgb(206, 221, 235);
+  backdrop-filter: blur(1px);
+  border-radius: 0px;
+  font-size: 50pt;
+  text-align: center;
+  animation: shine 3s linear infinite;
+  font-weight: bold;
+  
+}
+
+.taskbar{
+  position: fixed;   
+  top: 170px;  
+  left: 150px;  
+  width: 60%;
+  max-height: 70vh;
+  overflow-y: auto;  
+}
