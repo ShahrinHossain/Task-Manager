@@ -1,21 +1,32 @@
-*{
-    margin: 0px;
-    padding: 0px;
-}
-
-.TaskBar{
+.TaskBar {
     position: fixed;   
-    top: 170px;  
+    margin-top: 7rem;  
     left: 5%;  
     width: 70%;
-    max-height: 75vh;
-    overflow-y: auto;  
+    max-height: 70%;
+    overflow-y: auto; 
 }
+
+@media (max-width: 768px) {
+    .TaskBar {
+        position: fixed;           
+        top: 8rem;                 
+        width: 100%;             
+        overflow-y: auto;          
+        margin-top: 2%;
+        left: 0;
+        border-radius: 0;
+        z-index: 999;     
+    }
+
+}
+
 
 
 .TaskBar::-webkit-scrollbar {
     width: 0.7vh; 
 }
+
 
 
 .TaskBar::-webkit-scrollbar-track {
@@ -33,24 +44,13 @@
     background: #903d55;
 }
 
-.TaskHeading{
-    border-radius: 10px;
-    background-color: rgb(197, 221, 221);    
-    padding: 15px;
-    margin: 10px;
-    top: 100px; 
-    left: 5%; 
-    width: 20%; 
-    height: 20px;
-    position: fixed;  
-}
 
 .TaskCard {
-    border-radius: 10px;
-    box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+    border-radius: 1rem;
+    box-shadow: 2rem 2rem 10rem rgba(0,0,0,0.3);
     background-color: rgb(205, 180, 180);
-    padding: 10px;    
-    margin: 10px;
+    padding: 0.5rem;    
+    margin: 1rem;
 }
 
 .TaskCard.completed{
@@ -62,29 +62,62 @@
 }
 
 .TaskDescriptionCard { 
+    position: relative;
     display: inline-block;
-    padding: 10px;
-    border-radius: 10px;
+    padding: 0.5rem;
+    border-radius: 1rem;
     background-color: rgb(210, 200, 200);
-    font-size: 20px;
-    margin: 5px;
-    width: 75%;
+    font-size: 1rem;
+    margin: 0.5rem;
+    width: 70%;
+}
+
+@media (max-width: 768px) {
+    .TaskDescriptionCard { 
+        display: block;
+        position: relative;
+        width: auto;
+    }
 }
 
 .TaskStatusCard{
     display: inline-block;
-    padding: 10px;
-    border-radius: 10px;
+    padding: 0.5rem;
+    border-radius: 1rem;
     background-color: rgb(210, 200, 200);
-    font-size: 20px;
-    margin: 5px;
-    width: 100px;
+    font-size: 0.7rem;
+    margin: 0.5rem;
+    width: 8%;
+}
+
+@media (max-width: 768px) {
+    .TaskStatusCard { 
+        display: inline-block;
+        position: relative;
+        width: 20%;
+    }
 }
 
 .TaskPriority{
+    display: inline-block;
     font-size: 1.5rem;
     position: relative;
-    margin-left: 1.8%;
+    margin-left: 1%;
+}
+
+
+@media (max-width: 768px) {
+    .TaskPriority { 
+        font-size: 1rem;
+        padding-left: 2%;  
+    }
+}
+
+@media (width: 1024px) {
+    .TaskPriority { 
+        font-size: 1.2rem; 
+        padding-left: 7%;
+    }
 }
 
 .TaskPriority.high{
@@ -105,7 +138,6 @@
     background-color: transparent;
     border: transparent;
     padding-left: 2%;
-    padding-top: 10px;
 }
 
 .EditButton:hover{
@@ -113,13 +145,27 @@
     transform: scale(1.2);
 }
 
+@media (max-width: 767px) {
+    .EditButton { 
+        font-size: 1.2rem;
+        padding-left: 35%;  
+    }
+}
+
+@media (width: 768px) {
+    .EditButton { 
+        font-size: 1.2rem;
+        padding-left: 50%; 
+    }
+}
+
+
 .DeleteButton{
     display: inline-block;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     background-color: transparent;
     border: transparent;
     padding-left: 4%;
-    padding-top: 10px;
 }
 
 .DeleteButton:hover{
@@ -127,28 +173,10 @@
     transform: scale(1.2);
 }
 
-.NewTaskButton{
-    border: transparent;
-    display: inline-block;
-    background-color: transparent;
-    font-size: 1.6rem;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+@media (max-width: 768px) {
+    .DeleteButton { 
+        font-size: 1rem;
+        padding-left: 8%;  
+    }
 }
 
-.NewTaskButton:hover{
-    color: #0970a0;
-    transform: scale(1.4);
-}
-
-.FilterButton{
-    border: transparent;
-    display: inline-block;
-    background-color: transparent;
-    font-size: 1.2rem;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-}
-
-.FilterButton:hover{
-    color: #0970a0;
-    transform: scale(1.2);
-}

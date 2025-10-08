@@ -23,8 +23,8 @@ function App() {
     />)
 
   return(
-  <div className="SiteContainer">
-      <h1 className= 'AppName'> DoneZone </h1>
+  <div className= 'Container-app'>
+      <div className= 'AppName'> DoneZone </div>
       <div className= 'TaskHeading'>
         <TaskHeader />
       </div>

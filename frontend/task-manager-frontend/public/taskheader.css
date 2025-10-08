@@ -1,0 +1,67 @@
+.TaskHeading{
+    border-radius: 1em;
+    background-color: rgb(197, 221, 221);    
+    padding: 1em;
+    margin: 1rem;
+    top: 4em; 
+    left: 5%; 
+    width: auto; 
+    height: auto;
+    position: fixed;  
+}
+
+.TaskHeading p{
+    font-size: 1em;
+}
+
+.NewTaskButton{
+    border: transparent;
+    display: inline-block;
+    background-color: transparent;
+    font-size: 1.2rem;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.NewTaskButton:hover{
+    color: #0970a0;
+    transform: scale(1.4);
+}
+
+.FilterSortButton{
+    border: transparent;
+    display: inline-block;
+    background-color: transparent;
+    font-size: 0.8rem;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.FilterSortButton:hover{
+    color: #0970a0;
+    transform: scale(1.4);
+}
+
+
+@media (max-width: 768px) {
+    .TaskHeading {
+      border-radius: 1rem;
+      position: relative;  
+      width: auto;
+      top: 0.5rem;          
+      left: 0;
+      right: 0;
+      margin: 1rem;
+    }
+  
+    .TaskHeading p {
+      padding-left: 1rem;
+      font-size: 0.8rem;     
+    }
+
+    .NewTaskButton {
+        font-size: 1rem;
+    }
+
+    .FilterSortButton {
+        font-size: 0.7rem;
+    }
+}

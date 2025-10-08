@@ -16,12 +16,12 @@ function Task(props){
             <div className= "TaskStatusCard">
                 {taskStat}
             </div>
+            <div className= {`TaskPriority ${taskPrior}`}>
+                <PiFlagPennantFill />
+            </div>
             <button className= "EditButton">
                 <CiEdit />
             </button>
-            <icon className= {`TaskPriority ${taskPrior}`}>
-                <PiFlagPennantFill />
-            </icon>
             <button className= "DeleteButton">
                 <PiTrashSimpleLight/>
             </button>

@@ -1,28 +1,25 @@
 html, body {
   background: 
-    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), /* dark overlay */
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
     url('./assets/background2.jpg') center/cover no-repeat;
+  background-attachment: fixed;
   padding: 0;
   height: 100vh;
   font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  overflow: hidden;
 }
 
 .AppName{
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.3);
   box-shadow: rgb(255, 255, 255);
   backdrop-filter: blur(1px);
-  border-radius: 0px;
-  font-size: 50pt;
+  border-radius: 0%;
+  font-size: clamp(1.5rem, 5vw, 3rem);
   text-align: center;
   animation: shine 3s linear infinite;
   font-weight: bold;
+  z-index: 1000;
+  top: 0;
 }
 
-/* .SiteContainer{
-    width: 1200px;   
-    height: 100vh;  
-    min-height: 100vh;
-    margin: 0 auto; 
-    position: relative;
-} */
 

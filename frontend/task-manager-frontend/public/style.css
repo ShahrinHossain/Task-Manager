@@ -1,57 +1,86 @@
 *{
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
 }
 
 .SideBar {
-    top: 110px; 
-    right: 20px;  
-    width: 20%;
-    height: 75%;
+    top: 5em; 
+    right: 2em;  
+    width: 15%;
+    height: 80%;
     position: fixed; 
-    margin: 20px;     
-    padding: 15px;
-    border-radius: 10px;
-    background-color: rgb(146, 166, 175);
+    margin: 1rem;     
+    padding: 0.5rem;
+    border-radius: 1rem;
+    background-color: transparent;
+    align-items: start;
 }
+  
 
 .PictureCard {
     position: relative; 
     background: url('../src/assets/calender3.png') center/cover no-repeat;
-    border-radius: 10%;
-    background-color: transparent;
-    width: 40%;          
-    padding-top: 40%; 
-    margin-left: 30%; 
+    border-radius: 1rem;
+    width: 200px;          
+    padding-top: 200px; 
+    margin-left: auto; 
+    margin-right: auto;
     text-align: center; 
-    color: rgb(10, 56, 97);      
+    color: rgb(10, 56, 97);   
+    transform: scale(1);   
 }
 
-.PictureCard h1,
-.PictureCard h2,
-.PictureCard h6 {
+.PictureCard p1,
+.PictureCard p2,
+.PictureCard p3 {
     position: absolute;
     width: 100%;
     left: 0;
-    padding-top: 12%;
+    margin-top: 30px;
 }
 
 
-.PictureCard h1 {
+.PictureCard p1 {
     top: 15%;          
-    font-size: 4rem;
+    font-size: 4em;
 }
 
-.PictureCard h2 {
+.PictureCard p2 {
     top: 45%;          
-    font-size: 3rem;
+    font-size: 3em;
 }
 
-.PictureCard h6 {
+.PictureCard p3 {
     top: 70%;          
-    font-size: 1.5rem;
+    font-size: 1.5em;
 }
 
+@media (max-width: 768px) {
+    .SideBar{
+      display: none; 
+    }
+}
+
+@media (width: 2560px) {
+    .PictureCard {
+        margin-top: 5%;
+        transform: scale(1.2);
+    }
+}
+
+@media (width: 1440px) {
+    .PictureCard {
+        margin-top: 5%;
+        transform: scale(0.7);
+    }
+}
+
+@media (max-width: 1024px) {
+    .PictureCard {
+        margin-top: 5%;
+        transform: scale(0.6);
+    }
+}
 
 .DetailsCard{
     border-radius: 10px;

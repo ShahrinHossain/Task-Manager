@@ -20,9 +20,9 @@ function Side(){
     return(
     <div>
         <div className= 'PictureCard'>
-           <h1>{dayDate}</h1>
-           <h2>{monthName}</h2>
-           <h6>{dayName}</h6>
+           <p1>{dayDate}</p1>
+           <p2>{monthName}</p2>
+           <p3>{dayName}</p3>
         </div>
         <div className= 'DetailsCard'>
             <p>fhdifrfi</p>
