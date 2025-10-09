@@ -1,14 +1,18 @@
-import psycopg2
-from psycopg2.extras import RealDictCursor
-import time
+from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
-while True:
+SQLALCHEMY_DATABASE_URL = 'postgresql://postgres:Shaain147@localhost/task_manager'
+
+engine = create_engine(SQLALCHEMY_DATABASE_URL)
+
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+Base = declarative_base()
+
+def get_db():
+    db = SessionLocal()
     try:
-        conn = psycopg2.connect(host= 'localhost', database= 'task_manager', user= 'postgres', password= 'Shaain147', cursor_factory= RealDictCursor)
-        cursor = conn.cursor()
-        print('Database Connection Was Successful')
-        break
-    except Exception as error:
-        print('Connection to Database Failed')
-        print('Error was ', error)
-        time.sleep(2)
+        yield db
+    finally:
+        db.close()

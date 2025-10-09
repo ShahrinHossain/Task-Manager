@@ -1,24 +1,43 @@
-from enum import Enum
-from typing import List, Optional
 from pydantic import BaseModel
 
-class TaskStatus(str, Enum):
-    due = "due"
-    ongoing = "ongoing"
-    completed = "completed"
+from app.database import Base
+from sqlalchemy import Column, Integer, String
+from sqlalchemy.sql.expression import text
+from sqlalchemy.sql.sqltypes import TIMESTAMP
+from sqlalchemy.dialects.postgresql import INTERVAL
 
-class Task(BaseModel):
-    task_id: Optional[int] = None
-    name: str
+
+class TaskInfo(BaseModel):
+    description: str
     status: int
     priority: int
     userid: int
-    # status: TaskStatus
-
-class Tasks(BaseModel):
-    tasks: List[Task]
 
 class StatusUpdate(BaseModel):
     status: int
 
-memory_db = {"tasks": []}
+class UserInfo(BaseModel):
+    name: str
+    email: str
+
+
+class Task(Base):
+    __tablename__ = "alltasks"
+    id = Column(Integer, primary_key=True, nullable=False)
+    description = Column(String, nullable=False)
+    status = Column(Integer, nullable=False)
+    priority = Column(Integer, nullable=False)
+    userid = Column(Integer, nullable=False)
+    created = Column(TIMESTAMP(timezone=True), nullable=False,
+                     server_default=text('now()'))
+
+class User(Base):
+    __tablename__ = "allusers"
+    id = Column(Integer, primary_key=True, nullable=False)
+    name = Column(String, nullable=False)
+    email = Column(String, nullable=False, unique=True)
+    password = Column(String, nullable=False)
+    bestscore = Column(Integer, nullable=False, server_default=text('0'))
+    bestspeed = Column(INTERVAL, nullable=True)
+    created = Column(TIMESTAMP(timezone=True), nullable=False,
+                     server_default=text('now()'))
