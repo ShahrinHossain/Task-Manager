@@ -10,12 +10,15 @@ class TaskStatus(str, Enum):
 class Task(BaseModel):
     task_id: Optional[int] = None
     name: str
-    status: TaskStatus
+    status: int
+    priority: int
+    userid: int
+    # status: TaskStatus
 
 class Tasks(BaseModel):
     tasks: List[Task]
 
 class StatusUpdate(BaseModel):
-    status: TaskStatus
+    status: int
 
 memory_db = {"tasks": []}

@@ -1,10 +1,12 @@
 from http.client import HTTPException
-from pathlib import Path
 from fastapi import FastAPI, Body, Response, status, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pyexpat.errors import messages
-
 from app.utils import *
+
+
+# from sqlalchemy import create_engine, Column, Integer, String
+# from sqlalchemy.ext.declarative import declarative_base
+# from sqlalchemy.orm import sessionmaker
 
 
 # app related setups
@@ -24,26 +26,6 @@ app.add_middleware(
 )
 
 
-### moved  this part to separate file models.py
-
-# # task structure related
-# class TaskStatus(str, Enum):
-#     due = "due"
-#     ongoing = "ongoing"
-#     completed = "completed"
-#
-# class Task(BaseModel):
-#     task_id : Optional[int] = None
-#     name : str
-#     status : TaskStatus
-#
-# class Tasks(BaseModel):
-#     tasks : List[Task]
-
-#
-# # database related
-# memory_db = {"tasks": []}
-
 # all apis
 @app.get("/", status_code= status.HTTP_200_OK)
 def root():
@@ -51,21 +33,24 @@ def root():
 
 @app.get("/tasks", status_code= status.HTTP_200_OK)
 def get_tasks():
-    hf_print_tasks(memory_db['tasks'])
-    return Tasks(tasks = memory_db["tasks"])
+    tasks = hf_return_tasks()
+    if tasks == {"message": "No task found"}:
+        raise HTTPException(status_code= status.HTTP_404_NOT_FOUND,
+                            detail= tasks)
+    return tasks
 
 @app.get("/task/{task_id}", status_code= status.HTTP_200_OK)
 def get_task(task_id: int):
-    task_info = hf_organize_task(task_id)
+    task_info = hf_return_one_task(task_id)
     if task_info == {"message": "No task found"}:
         raise HTTPException(status_code= status.HTTP_404_NOT_FOUND,
                             detail= task_info)
     return task_info
 
-@app.post("/add_tasks", status_code= status.HTTP_201_CREATED)
-def add_tasks(new_tasks: Tasks = Body(...)):
-    message = hf_add_task(new_tasks.tasks)
-    if message == {"message": "An Error Occurred"}:
+@app.post("/add_task", status_code= status.HTTP_201_CREATED)
+def add_task(new_task: Task = Body(...)):
+    message = hf_add_task(new_task)
+    if message == {"message": "An error has occurred"}:
         raise HTTPException(status_code= status.HTTP_500_INTERNAL_SERVER_ERROR,
                             detail= message)
     return message
