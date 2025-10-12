@@ -1,0 +1,229 @@
+html, body {
+    background: 
+      linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+      url('./assets/background2.jpg') center/cover no-repeat;
+    background-attachment: fixed;
+    padding: 0;
+    height: 100vh;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    overflow: hidden;
+  }
+
+.dashboard-title {
+    font-size: 2.5rem; 
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    padding: 1rem 2rem;
+    color: #fff;
+    background-color: rgba(202, 50, 50, 0.4); 
+    border-radius: 10px;
+    backdrop-filter: blur(8px); 
+    -webkit-backdrop-filter: blur(8px); 
+    display: inline-block; 
+  }
+  
+.dashboard-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 1rem;
+    box-sizing: border-box;
+    background-color: transparent;
+  }
+  
+  .dashboard-boxes {
+    max-height: 55vh; 
+    overflow-y: auto;
+    border: 1px solid transparent;
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.4);
+    box-sizing: border-box;
+  }
+  
+  .dashboard-box {
+    border: 1px solid #aaa;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    cursor: pointer;
+    background-color: white;
+    transition: background-color 0.2s ease;
+  }
+  
+  .dashboard-box:hover {
+    background-color: #d1e9f5;
+  }
+  
+  .box-header {
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+  
+  .box-content {
+    margin-top: 0.5rem;
+    padding-left: 0.5rem;
+    word-wrap: break-word; /* ensures long text wraps nicely */
+  }
+  
+  /* Scrollbar styling for better UX */
+  .dashboard-boxes::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .dashboard-boxes::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+  }
+
+  .user-card {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
+  }
+  
+  .user-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+  }
+
+  .admin-buttons {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  .admin-buttons button {
+    padding: 1rem 3rem;
+    font-size: 1rem;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    border: none;
+    border-radius: 6px;
+    background-color:  #d1e9f5;
+    color: #000000;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+  }
+  
+  .admin-buttons button:hover {
+    background-color: #ffffff;
+  }
+  
+  @media (max-width: 768px) {
+    .dashboard-container {
+      width: 95%;
+      padding: 0.5rem;
+    }
+  
+    .dashboard-box {
+      padding: 0.8rem;
+    }
+  
+    .box-header {
+      font-size: 1rem;
+    }
+  
+    .box-content {
+      padding-left: 0.3rem;
+    }
+  }
+  
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 10px; 
+    box-sizing: border-box;
+  }
+  
+  .modal-content {
+    background-color: rgb(211, 147, 147);
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    max-height: 90vh; /* ensure modal fits in viewport */
+  }
+  
+  .modal-content input {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    font-size: 1rem;
+    box-sizing: border-box;
+    border-radius: 6px;
+    border-color: transparent;
+  }
+  
+  .modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .modal-buttons button {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    border: none;
+    border-radius: 6px;
+    background-color:  #d1e9f5;
+    color: #000000;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+    flex: 1 1 100px; 
+    padding: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+
+  .modal-buttons button:hover{
+    background-color: #ffffff;
+  }
+  
+  @media (max-width: 500px) {
+    .modal-content {
+      padding: 15px;
+    }
+  
+    .modal-content input {
+      padding: 8px;
+      font-size: 0.9rem;
+    }
+  
+    .modal-buttons button {
+      padding: 8px;
+      font-size: 0.9rem;
+    }
+  }
+
+  .dashboard-message {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: #a3f0a6; 
+    color: rgb(0, 0, 0);
+    padding: 10px 15px;
+    border-radius: 5px;
+    z-index: 10000;
+    box-shadow: 0px 2px 6px rgba(0,0,0,0.3);
+  }
+  

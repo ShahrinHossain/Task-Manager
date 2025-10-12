@@ -15,7 +15,7 @@ admin_list = [
 ]
 
 @router.post("/register_admin", status_code=status.HTTP_201_CREATED)
-def register_admin(admin: AdminInfo = Body(...), db: Session = Depends(get_db)):
+def register_admin(admin: AdminInfo = Body(...), db: Session = Depends(get_db), current_admin = Depends(get_current_admin)):
     message = hf_add_admin(admin, db)
     if message == {"message": "An error has occurred"}:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,

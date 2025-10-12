@@ -14,10 +14,7 @@ PRIORITY_SCORES = {
 def hf_return_tasks(db, current_user):
     try:
         tasks = db.query(Task).filter(Task.userid == current_user.id).all()
-        if tasks:
-            return tasks
-        else:
-            return {"message: No task found"}
+        return tasks
     except Exception as e:
         print("Error:", e)
         return {"message": "Error fetching task"}

@@ -5,7 +5,7 @@
     margin: 1rem;
     top: 4em; 
     left: 5%; 
-    width: auto; 
+    width: 30%; 
     height: auto;
     position: fixed;  
 }
@@ -65,3 +65,86 @@
         font-size: 0.7rem;
     }
 }
+
+.inline-add-task {
+    display: flex;
+    gap: 8px;
+    margin-top: 1rem;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  }
+  
+  .inline-add-task input {
+    flex: 1;
+    padding: 0.5rem;
+    border-radius: 8px;
+    border: 1px;
+    border-color: transparent;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  }
+
+  .inline-add-task input:hover{
+    background-color: rgb(209, 253, 253)
+  }
+  
+  .inline-add-task select {
+    padding: 0.5rem;
+    border-radius: 8px; 
+    border: 1px;
+    background-color: #fff; 
+    color: #000;
+    border-color: transparent;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  }
+
+  .inline-add-task select:hover{
+    background-color: rgb(209, 253, 253);
+  }
+  
+  
+  .inline-add-task button {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: none;
+    background-color: #d1e9f5;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  }
+  
+  .inline-add-task button:hover {
+    background-color: rgb(209, 253, 253);
+  }
+
+  .inline-filter-task {
+    display: flex;
+    gap: 20px;
+    margin-top: 1rem;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  }
+
+  .inline-filter-task select{
+    padding: 0.5rem;
+    border-radius: 8px; 
+    border: 1px;
+    background-color: #fff; 
+    color: #000;
+    border-color: transparent;
+  }
+
+  .inline-filter-task select:hover{
+    background-color: rgb(209, 253, 253);
+  }
+  
+  .inline-filter-task button{
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: none;
+    background-color: #d1e9f5;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  }
+
+  .inline-filter-task button:hover{
+    background-color: rgb(209, 253, 253);
+  }

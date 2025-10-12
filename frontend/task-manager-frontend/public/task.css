@@ -1,16 +1,16 @@
 .TaskBar {
     position: fixed;   
-    margin-top: 7rem;  
+    margin-top: 10rem;  
     left: 5%;  
     width: 70%;
-    max-height: 70%;
+    max-height: 60%;
     overflow-y: auto; 
 }
 
 @media (max-width: 768px) {
     .TaskBar {
         position: fixed;           
-        top: 8rem;                 
+        top: 15rem;                 
         width: 100%;             
         overflow-y: auto;          
         margin-top: 2%;
@@ -84,10 +84,14 @@
     display: inline-block;
     padding: 0.5rem;
     border-radius: 1rem;
-    background-color: rgb(210, 200, 200);
+    background-color: rgb(197, 169, 169);
     font-size: 0.7rem;
     margin: 0.5rem;
     width: 8%;
+}
+
+.TaskStatusCard:hover{
+    background-color: rgb(210, 200, 200);
 }
 
 @media (max-width: 768px) {
@@ -180,3 +184,173 @@
     }
 }
 
+/* Delete confirmation popup */
+.DeleteConfirmPopup {
+    margin-top: 0.5rem;
+    padding: 0.8rem;
+    border-radius: 1rem;
+    background-color: rgb(197, 221, 221);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    width: auto;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Text inside the popup */
+.DeleteConfirmPopup div:first-child {
+    font-size: 1rem;
+    color: #000000;
+    text-align: center;
+}
+
+/* Popup button row */
+.PopupButtons {
+    display: flex;
+    justify-content: center;
+    gap: 0.8rem;
+}
+
+/* Buttons inside delete popup */
+.PopupButtons button {
+    padding: 0.5rem 1.2rem;
+    border-radius: 0.8rem;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s ease;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+/* Confirm (Yes) button */
+.ConfirmButton {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.ConfirmButton:hover {
+    background-color: rgb(209, 253, 253);
+}
+
+/* Cancel (No) button */
+.CancelButton {
+    background-color: #f6c0c0;
+    color: #000000;
+}
+
+.CancelButton:hover {
+    background-color: #e99595;
+}
+
+
+.StatusDropdown {
+    position: absolute;
+    top: 100%;
+    margin-top: 1rem; /* right below the status card */
+    left: 0;
+    background-color: #f0f0f0;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    width: 100%;
+    z-index: 100;
+  }
+  
+  .StatusOption {
+    padding: 0.3rem 0.5rem;
+    cursor: pointer;
+    font-size: 0.7rem;
+  }
+  
+  .StatusOption:hover {
+    background-color: #d1e9f5;
+  }
+  
+/* Edit form container below the task card */
+.EditFormCard {
+    margin-top: 0.5rem;
+    padding: 0.8rem;
+    border-radius: 1rem;
+    background-color: rgb(197, 221, 221);
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    width: auto;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+/* Textarea for task description */
+.EditDescription {
+    padding: 0.6rem;
+    border-radius: 1rem;
+    border: 1px solid #c9c9c9;
+    font-size: 1rem;
+    resize: none;
+    width: auto;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+/* Dropdown row (status + priority inline) */
+.EditDropdownRow {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.8rem;
+    width: 100%;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+/* Dropdowns (Status & Priority) */
+.EditDropdown {
+    flex: 1;
+    padding: 0.6rem;
+    border-radius: 1rem;
+    background-color: #e8f8f5;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #000000;
+    border-color: transparent;
+}
+
+.EditDropdown:hover {
+    background-color: rgb(209, 253, 253);
+}
+
+/* Buttons inside the edit form */
+.EditFormButtons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.EditFormButtons button {
+    padding: 0.5rem 1.2rem;
+    border-radius: 0.8rem;
+    border-color: transparent;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s ease;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+/* Save button */
+.SaveEditButton {
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+}
+
+.SaveEditButton:hover {
+    background-color: rgb(209, 253, 253);;
+}
+
+/* Cancel button */
+.CancelEditButton {
+    background-color: #f6c0c0;
+    color: #000000;
+}
+
+.CancelEditButton:hover {
+    background-color: #e99595;
+}

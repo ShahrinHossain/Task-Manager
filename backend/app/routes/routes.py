@@ -14,10 +14,6 @@ def root():
 @router.get("/tasks", status_code= status.HTTP_200_OK)
 def get_tasks(db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     tasks = hf_return_tasks(db, current_user)
-    if tasks == {"message": "No task found"}:
-        raise HTTPException(status_code= status.HTTP_404_NOT_FOUND,
-                            detail= tasks)
-    # print(current_user.email)
     return tasks
 
 @router.get("/task/{task_id}", status_code= status.HTTP_200_OK)
