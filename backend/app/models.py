@@ -20,6 +20,17 @@ class UserInfo(BaseModel):
     password: str
     model_config = ConfigDict(extra='allow')
 
+class AdminInfo(BaseModel):
+    email: EmailStr
+    password: str
+
+class AdminResponse(BaseModel):
+    id: int
+    email: EmailStr
+    model_config = {
+        "from_attributes": True
+    }
+
 class UserResponse(BaseModel):
     id: int
     name: str
@@ -40,6 +51,9 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     id: int
+
+class AdminTokenData(TokenData):
+    role: str
 
 class Task(Base):
     __tablename__ = "alltasks"
@@ -69,8 +83,8 @@ class Score(Base):
     score = Column(Integer, nullable=False)
     created = Column(Date, nullable=False, server_default=text('CURRENT_DATE'))
 
-# class Admin(Base):
-#     __tablename__ = "alladmins"
-#     id = Column(Integer, primary_key=True, nullable=False)
-#     email = Column(String, nullable=False, unique=True)
-#     password = Column(String, nullable=False)
+class Admin(Base):
+    __tablename__ = "alladmins"
+    id = Column(Integer, primary_key=True, nullable=False)
+    email = Column(String, nullable=False, unique=True)
+    password = Column(String, nullable=False)
