@@ -22,14 +22,13 @@ const RegisterAdminModal = ({ isOpen, onClose, onAdminRegistered }) => {
       );
       setMessage("Admin registered successfully");
 
-      // Clear message after 2 seconds
       setTimeout(() => setMessage(""), 2000);
 
       onAdminRegistered(); 
       setName("");
       setEmail("");
       setPassword("");
-      onClose(); // close modal
+      onClose(); 
     } catch (error) {
       console.error(error);
       if (error.response) {
@@ -38,7 +37,6 @@ const RegisterAdminModal = ({ isOpen, onClose, onAdminRegistered }) => {
         setMessage("Server error or network issue");
       }
 
-      // Clear message after 2 seconds
       setTimeout(() => setMessage(""), 2000);
     }
   };
