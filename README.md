@@ -98,22 +98,21 @@ Frontend URL:
 
 ### 🔹 6. 📂 Folder Structure
 ```bash
-DoneZone/
-│
+Task-Manager/
 ├── backend/
-│   ├── main.py
-│   ├── routers/
-│   ├── models/
-│   └── database.py
-│
+│ ├── main.py
+│ ├── routers/
+│ ├── models/
+│ └── database.py
 ├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   └── assets/
-│   ├── public/
-│   └── package.json
-│
+│ └── task-manager-frontend/
+│ ├── public/
+│ ├── src/
+│ │ ├── components/
+│ │ ├── pages/
+│ │ └── assets/
+│ └── package.json
+├── .gitignore
 └── README.md
 ```
 
