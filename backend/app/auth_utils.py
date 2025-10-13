@@ -15,6 +15,9 @@ SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
+### Helper functions for auth_routes
+
+# Encodes the data with SECRET_KEY and expiry time into the access token
 def create_access_token(data: dict):
     to_encode = data.copy()
     expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
@@ -22,6 +25,8 @@ def create_access_token(data: dict):
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
+
+# Decodes a user token and verifies the data
 def verify_access_token(token: str, credentials_exception):
     try:
         # print(token)
@@ -36,6 +41,7 @@ def verify_access_token(token: str, credentials_exception):
         raise credentials_exception
 
 
+# Decodes an admin token and verifies the data
 def verify_admin_access_token(token: str, credentials_exception: HTTPException):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
@@ -49,6 +55,8 @@ def verify_admin_access_token(token: str, credentials_exception: HTTPException):
     except JWTError:
         raise credentials_exception
 
+
+# Verifies a user token and returns user info
 def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     credentials_exception = HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                                           detail="Could not validate credentials",
@@ -57,6 +65,8 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
     user_info = db.query(User).filter(User.id == token_data.id).first()
     return UserResponse.from_orm(user_info)
 
+
+# Verifies an admin token and returns admin info
 def get_current_admin(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     credentials_exception = HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                                           detail="Could not validate admin credentials",
@@ -66,12 +76,18 @@ def get_current_admin(token: str = Depends(oauth2_scheme), db: Session = Depends
     admin_info = db.query(Admin).filter(Admin.id == token_data.id).first()
     return AdminResponse.from_orm(admin_info)
 
+
+# Hash a password
 def hash_pass(password: str):
     return pwd_context.hash(password)
 
+
+# Matches a password and returns the result
 def verify_pass(attempted_password: str, actual_password: str):
     return pwd_context.verify(attempted_password, actual_password)
 
+
+# Registers a user by hashing password
 def hf_add_user(user: UserInfo, db):
     try:
         user.password = hash_pass(user.password)
@@ -84,6 +100,8 @@ def hf_add_user(user: UserInfo, db):
         print('Error:', e)
         return {"message": "An error has occurred"}
 
+
+# Registers an admin by hashing password
 def hf_add_admin(admin: AdminInfo, db):
     try:
         admin.password = hash_pass(admin.password)
@@ -96,6 +114,8 @@ def hf_add_admin(admin: AdminInfo, db):
         print('Error:', e)
         return {"message": "An error has occurred"}
 
+
+# Logins a user by checking credentials
 def hf_login_user(user_creds: OAuth2PasswordRequestForm, db):
     try:
         user_info = db.query(User).filter(User.email == user_creds.username).first()
@@ -112,6 +132,8 @@ def hf_login_user(user_creds: OAuth2PasswordRequestForm, db):
         print('Error:', e)
         return {"message": "An error has occurred"}
 
+
+# Logins an admin by checking credentials
 def hf_login_admin(user_creds: OAuth2PasswordRequestForm, db):
     try:
         admin_info = db.query(Admin).filter(Admin.email == user_creds.username).first()

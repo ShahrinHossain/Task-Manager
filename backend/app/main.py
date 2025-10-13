@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
 from app import models
 from app.database import engine
 from app.routes import auth_routes, routes, admin_routes

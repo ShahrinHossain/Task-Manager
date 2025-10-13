@@ -11,6 +11,9 @@ PRIORITY_SCORES = {
     3: 10   # low
 }
 
+### Helper functions for routes
+
+# Returns all the tasks of a user
 def hf_return_tasks(db, current_user):
     try:
         tasks = db.query(Task).filter(Task.userid == current_user.id).all()
@@ -19,6 +22,8 @@ def hf_return_tasks(db, current_user):
         print("Error:", e)
         return {"message": "Error fetching task"}
 
+
+# Returns one task info of a user
 def hf_return_one_task(tid: int, db):
     try:
         task_info = db.query(Task).filter(Task.id == tid).first()
@@ -30,6 +35,8 @@ def hf_return_one_task(tid: int, db):
         print("Error:", e)
         return {"message": "Error fetching task"}
 
+
+# Adds a task for a user to the database
 def hf_add_task(new_task, db, current_user):
     try:
         task_info = new_task.dict()
@@ -41,6 +48,8 @@ def hf_add_task(new_task, db, current_user):
         print('Error:', e)
         return {"message": "An error has occurred"}
 
+
+# Updates a task status for a user and changes score if needed
 def hf_update_task_status(tid: int, tstatus: int, db, current_user):
     try:
         changed_task_query = db.query(Task).filter(Task.id == tid)
@@ -59,6 +68,8 @@ def hf_update_task_status(tid: int, tstatus: int, db, current_user):
         print('Error:', e)
         return {"message": "An error has occurred"}
 
+
+# Updates a task info for a user and changes score if needed
 def hf_update_task(tid: int, updated_task, db, current_user):
     try:
         changed_task_query = db.query(Task).filter(Task.id == tid)
@@ -77,6 +88,8 @@ def hf_update_task(tid: int, updated_task, db, current_user):
         print('Error:', e)
         return {"message": "An error has occurred"}
 
+
+# Deletes a task from a user task list
 def hf_delete_task(tid: int, db, current_user):
     try:
         deleted_task_query = db.query(Task).filter(Task.id == tid)
@@ -94,6 +107,8 @@ def hf_delete_task(tid: int, db, current_user):
         print("Error:", e)
         return {"message": "An error has occurred"}
 
+
+# Returns user account info
 def hf_return_user_info(db, current_user):
     try:
         user_info = db.query(User).filter(User.id == current_user.id).first()
@@ -105,6 +120,8 @@ def hf_return_user_info(db, current_user):
         print("Error:", e)
         return {"message": "Error fetching user info"}
 
+
+# Adds a column for a user in the score table on first login of day
 def hf_initiate_daily_score(db, uid):
     try:
         today = date.today()
@@ -127,6 +144,8 @@ def hf_initiate_daily_score(db, uid):
         print("Error:", e)
         return {"message": "Error creating score entry"}
 
+
+# Updates score by checking current and previous status and priority
 def hf_update_score(tid, uid, old_priority, new_priority, old_status, new_status, db):
     try:
         today = date.today()
@@ -173,6 +192,8 @@ def hf_update_score(tid, uid, old_priority, new_priority, old_status, new_status
         print("Error:", e)
 
 
+
+# Arranges the score stats for a user and returns it
 def hf_return_score_info(db, current_user):
     today = date.today()
     weekday = today.weekday()  # 0 = Monday, 6 = Sunday

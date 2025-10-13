@@ -1,6 +1,9 @@
 from datetime import date, timedelta
 from app.models import *
 
+### Helper functions for admin_routes
+
+# Returns all stats related to all users, top scorers, etc
 def hf_admin_stats(db, current_admin):
     try:
         today = date.today()

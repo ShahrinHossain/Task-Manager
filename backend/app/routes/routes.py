@@ -7,15 +7,22 @@ from sqlalchemy.orm import Session
 
 router = APIRouter(tags=["App related"])
 
+# For testing
 @router.get("/", status_code= status.HTTP_200_OK)
 def root():
     return {"message": "Hello World"}
 
+
+### All APIs that require User Authentication
+
+# User can fetch the task list
 @router.get("/tasks", status_code= status.HTTP_200_OK)
 def get_tasks(db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     tasks = hf_return_tasks(db, current_user)
     return tasks
 
+
+# User can fetch a specific task information
 @router.get("/task/{task_id}", status_code= status.HTTP_200_OK)
 def get_task(task_id: int, db: Session = Depends(get_db)):
     task_info = hf_return_one_task(task_id, db)
@@ -24,6 +31,8 @@ def get_task(task_id: int, db: Session = Depends(get_db)):
                             detail= task_info)
     return task_info
 
+
+# User can add a new task
 @router.post("/add_task", status_code= status.HTTP_201_CREATED)
 def add_task(new_task: TaskInfo = Body(...), db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     message = hf_add_task(new_task, db, current_user)
@@ -32,6 +41,8 @@ def add_task(new_task: TaskInfo = Body(...), db: Session = Depends(get_db), curr
                             detail= message)
     return message
 
+
+# User can update the status of a task
 @router.patch("/update_task_status/{task_id}", status_code= status.HTTP_202_ACCEPTED)
 def update_task_status(task_id: int, task_status: StatusUpdate = Body(...),  db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     message = hf_update_task_status(task_id, task_status.status, db, current_user)
@@ -43,6 +54,8 @@ def update_task_status(task_id: int, task_status: StatusUpdate = Body(...),  db:
                             detail= message)
     return message
 
+
+# User can update a task
 @router.put("/update_task/{task_id}", status_code= status.HTTP_202_ACCEPTED)
 def update_task(task_id: int, updated_task: TaskInfo = Body(...), db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     message = hf_update_task(task_id, updated_task, db, current_user)
@@ -54,6 +67,8 @@ def update_task(task_id: int, updated_task: TaskInfo = Body(...), db: Session = 
                             detail= message)
     return message
 
+
+# User can delete a task
 @router.delete("/delete_task/{task_id}", status_code= status.HTTP_204_NO_CONTENT)
 def delete_task(task_id: int, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     message = hf_delete_task(task_id, db, current_user)
@@ -65,7 +80,7 @@ def delete_task(task_id: int, db: Session = Depends(get_db), current_user = Depe
                             detail= message)
 
 
-
+# User can fetch own account information
 @router.get("/user", status_code= status.HTTP_200_OK)
 def get_user(db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     user_info = hf_return_user_info(db, current_user)
@@ -74,6 +89,8 @@ def get_user(db: Session = Depends(get_db), current_user = Depends(get_current_u
                             detail= user_info)
     return user_info
 
+
+# User can see daily, weekly and best score
 @router.get("/score", status_code= status.HTTP_200_OK)
 def get_score(db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     score_info = hf_return_score_info(db, current_user)
