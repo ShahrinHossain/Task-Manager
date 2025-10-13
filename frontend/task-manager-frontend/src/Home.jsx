@@ -43,7 +43,6 @@ const Home = () => {
           <button onClick={() => setIsRegisterOpen(true)}>Register</button>
         </div>
 
-        {/* Demo image section */}
         <img 
           src="/welcomepage.png" 
           alt="App Demo" 

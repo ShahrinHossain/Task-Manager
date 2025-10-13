@@ -1,0 +1,89 @@
+.urm-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+  
+  .urm-modal-content {
+    background-color: rgb(211, 147, 147);
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .urm-modal-content input {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    font-size: 1rem;
+    box-sizing: border-box;
+    border-radius: 6px;
+    border-color: transparent;
+  }
+  
+  .urm-modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .urm-modal-buttons button {
+    flex: 1 1 100px;
+    padding: 10px;
+    font-size: 1rem;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    border: none;
+    border-radius: 6px;
+    background-color: #d1e9f5;
+    color: #000000;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+  }
+  
+  .urm-modal-buttons button:hover {
+    background-color: #ffffff;
+  }
+  
+  .urm-message {
+    margin-top: 10px;
+    font-size: 13px;
+    text-align: center;
+    color: red;
+  }
+  
+
+  /*Responsive Adjustment*/
+  @media (max-width: 500px) {
+    .urm-modal-content {
+      padding: 15px;
+    }
+  
+    .urm-modal-content input {
+      padding: 8px;
+      font-size: 0.9rem;
+    }
+  
+    .urm-modal-buttons button {
+      padding: 8px;
+      font-size: 0.9rem;
+    }
+  }

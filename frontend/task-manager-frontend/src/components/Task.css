@@ -7,33 +7,14 @@
     overflow-y: auto; 
 }
 
-@media (max-width: 768px) {
-    .TaskBar {
-        position: fixed;           
-        top: 15rem;                 
-        width: 100%;             
-        overflow-y: auto;          
-        margin-top: 2%;
-        left: 0;
-        border-radius: 0;
-        z-index: 999;     
-    }
-
-}
-
-
-
 .TaskBar::-webkit-scrollbar {
     width: 0.7vh; 
 }
-
-
 
 .TaskBar::-webkit-scrollbar-track {
     background: #b8b8b8; 
     border-radius: 10px;
 }
-
 
 .TaskBar::-webkit-scrollbar-thumb {
     background: #f6fffe; 
@@ -43,7 +24,6 @@
 .TaskBar::-webkit-scrollbar-thumb:hover {
     background: #903d55;
 }
-
 
 .TaskCard {
     border-radius: 1rem;
@@ -72,14 +52,6 @@
     width: 70%;
 }
 
-@media (max-width: 768px) {
-    .TaskDescriptionCard { 
-        display: block;
-        position: relative;
-        width: auto;
-    }
-}
-
 .TaskStatusCard{
     display: inline-block;
     padding: 0.5rem;
@@ -94,34 +66,11 @@
     background-color: rgb(210, 200, 200);
 }
 
-@media (max-width: 768px) {
-    .TaskStatusCard { 
-        display: inline-block;
-        position: relative;
-        width: 20%;
-    }
-}
-
 .TaskPriority{
     display: inline-block;
     font-size: 1.5rem;
     position: relative;
     margin-left: 1%;
-}
-
-
-@media (max-width: 768px) {
-    .TaskPriority { 
-        font-size: 1rem;
-        padding-left: 2%;  
-    }
-}
-
-@media (width: 1024px) {
-    .TaskPriority { 
-        font-size: 1.2rem; 
-        padding-left: 7%;
-    }
 }
 
 .TaskPriority.high{
@@ -149,21 +98,6 @@
     transform: scale(1.2);
 }
 
-@media (max-width: 767px) {
-    .EditButton { 
-        font-size: 1.2rem;
-        padding-left: 35%;  
-    }
-}
-
-@media (width: 768px) {
-    .EditButton { 
-        font-size: 1.2rem;
-        padding-left: 50%; 
-    }
-}
-
-
 .DeleteButton{
     display: inline-block;
     font-size: 1.2rem;
@@ -177,14 +111,6 @@
     transform: scale(1.2);
 }
 
-@media (max-width: 768px) {
-    .DeleteButton { 
-        font-size: 1rem;
-        padding-left: 8%;  
-    }
-}
-
-/* Delete confirmation popup */
 .DeleteConfirmPopup {
     margin-top: 0.5rem;
     padding: 0.8rem;
@@ -199,21 +125,18 @@
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Text inside the popup */
 .DeleteConfirmPopup div:first-child {
     font-size: 1rem;
     color: #000000;
     text-align: center;
 }
 
-/* Popup button row */
 .PopupButtons {
     display: flex;
     justify-content: center;
     gap: 0.8rem;
 }
 
-/* Buttons inside delete popup */
 .PopupButtons button {
     padding: 0.5rem 1.2rem;
     border-radius: 0.8rem;
@@ -224,7 +147,6 @@
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
-/* Confirm (Yes) button */
 .ConfirmButton {
     background-color: #ffffff;
     color: #000000;
@@ -234,7 +156,6 @@
     background-color: rgb(209, 253, 253);
 }
 
-/* Cancel (No) button */
 .CancelButton {
     background-color: #f6c0c0;
     color: #000000;
@@ -249,10 +170,9 @@
     display: inline-block;
   }
   
-
 .StatusDropdown {
     position: absolute;
-    top: 110%; /* below the button */
+    top: 110%; 
     left: 0;
     background-color: #ffffff;
     border: 1px solid rgba(0, 128, 128, 0.2);
@@ -267,12 +187,12 @@
     padding: 0.5rem 1rem;
     cursor: pointer;
     font-size: 0.8rem;
-    color: #000000; /* dark teal text */
+    color: #000000; 
     transition: background-color 0.2s ease, color 0.2s ease;
   }
   
   .StatusOption:hover {
-    background-color: rgb(197, 221, 221); /* deep sea green */
+    background-color: rgb(197, 221, 221); 
     color: rgb(0, 0, 0);
   }
   
@@ -289,7 +209,6 @@
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
-/* Textarea for task description */
 .EditDescription {
     padding: 0.6rem;
     border-radius: 1rem;
@@ -300,7 +219,6 @@
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
-/* Dropdown row (status + priority inline) */
 .EditDropdownRow {
     display: flex;
     justify-content: space-between;
@@ -309,7 +227,6 @@
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
-/* Dropdowns (Status & Priority) */
 .EditDropdown {
     flex: 1;
     padding: 0.6rem;
@@ -326,7 +243,6 @@
     background-color: rgb(209, 253, 253);
 }
 
-/* Buttons inside the edit form */
 .EditFormButtons {
     display: flex;
     justify-content: flex-end;
@@ -344,7 +260,6 @@
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
-/* Save button */
 .SaveEditButton {
     background-color: #ffffff;
     color: rgb(0, 0, 0);
@@ -354,7 +269,6 @@
     background-color: rgb(209, 253, 253);;
 }
 
-/* Cancel button */
 .CancelEditButton {
     background-color: #f6c0c0;
     color: #000000;
@@ -362,4 +276,62 @@
 
 .CancelEditButton:hover {
     background-color: #e99595;
+}
+
+
+/*Responsive Adjustment*/
+@media (max-width: 768px) {
+    .TaskBar {
+        position: fixed;           
+        top: 15rem;                 
+        width: 100%;             
+        overflow-y: auto;          
+        margin-top: 2%;
+        left: 0;
+        border-radius: 0;
+        z-index: 999;     
+    }
+
+    .TaskDescriptionCard { 
+        display: block;
+        position: relative;
+        width: auto;
+    }
+
+    .TaskStatusCard { 
+        display: inline-block;
+        position: relative;
+        width: 20%;
+    }
+
+    .TaskPriority { 
+        font-size: 1rem;
+        padding-left: 2%;  
+    }    
+    
+    .DeleteButton { 
+        font-size: 1rem;
+        padding-left: 8%;  
+    }
+}
+
+@media (width: 1024px) {
+    .TaskPriority { 
+        font-size: 1.2rem; 
+        padding-left: 7%;
+    }
+}
+
+@media (max-width: 767px) {
+    .EditButton { 
+        font-size: 1.2rem;
+        padding-left: 35%;  
+    }
+}
+
+@media (width: 768px) {
+    .EditButton { 
+        font-size: 1.2rem;
+        padding-left: 50%; 
+    }
 }

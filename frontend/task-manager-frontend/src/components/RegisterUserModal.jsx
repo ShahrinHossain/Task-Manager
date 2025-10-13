@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "../UserDashboard.css";
+import "./RegisterUserModal.css";
 
 const RegisterUserModal = ({ isOpen, onClose, onSuccess }) => {
   const [username, setUsername] = useState("");

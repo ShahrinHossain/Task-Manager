@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import { IoAdd } from "react-icons/io5";
 import { TfiFilter } from "react-icons/tfi";
 import { MdOutlineSort } from "react-icons/md";
-import '../../public/taskheader.css';
+import './TaskHeader.css';
 import axios from "axios";
 
 const TaskHeader = ({ onTaskAdded }) => {
@@ -17,7 +17,7 @@ const TaskHeader = ({ onTaskAdded }) => {
   const [filterStatus, setFilterStatus] = useState("");
 
   const [showSort, setShowSort] = useState(false);
-  const [sortField, setSortField] = useState(""); // "", "status", "priority"
+  const [sortField, setSortField] = useState(""); 
   const [sortOrder, setSortOrder] = useState("asc");
 
   const handleAddTask = async () => {
@@ -74,7 +74,6 @@ const TaskHeader = ({ onTaskAdded }) => {
 
   return (
     <div style={{ marginBottom: '1rem' }}>
-      {/* Buttons Row */}
       <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '15px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}> 
           <p>Add Task</p>
@@ -98,7 +97,6 @@ const TaskHeader = ({ onTaskAdded }) => {
         </div>
       </div>
 
-      {/* Inline Add Task Field */}
       {showInput && (
         <div className="inline-add-task">
           <input
@@ -118,7 +116,6 @@ const TaskHeader = ({ onTaskAdded }) => {
         </div>
       )}
 
-      {/* Inline Filter Section */}
       {showFilter && (
         <div className="inline-filter-task">
           <select value={filterPriority} onChange={(e) => setFilterPriority(e.target.value)}>
@@ -139,7 +136,6 @@ const TaskHeader = ({ onTaskAdded }) => {
         </div>
       )}
 
-      {/* Inline Sort Section */}
       {showSort && (
         <div className="inline-filter-task">
           <select value={sortField} onChange={(e) => setSortField(e.target.value)}>

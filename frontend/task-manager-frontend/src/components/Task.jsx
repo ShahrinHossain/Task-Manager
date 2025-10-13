@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../public/task.css";
+import "./Task.css";
 import { CiEdit } from "react-icons/ci";
 import { PiTrashSimpleLight, PiFlagPennantFill } from "react-icons/pi";
 import axios from "axios";
@@ -98,7 +98,6 @@ function Task({ taskId, taskDesc, taskStat, taskPrior, onTaskDeleted, onTaskUpda
     <div className={`TaskCard ${status}`}>
       <div className="TaskDescriptionCard">{taskDesc}</div>
 
-      {/* Status card dropdown */}
       <div
         className="TaskStatusCard StatusDropdownContainer"
         onClick={() => setDropdownOpen((prev) => !prev)}
@@ -131,7 +130,7 @@ function Task({ taskId, taskDesc, taskStat, taskPrior, onTaskDeleted, onTaskUpda
       </button>
     <button
         className="DeleteButton"
-        onClick={() => setShowConfirm((prev) => !prev)} // <-- toggles on/off
+        onClick={() => setShowConfirm((prev) => !prev)} 
         >
         <PiTrashSimpleLight />
     </button>
@@ -151,7 +150,6 @@ function Task({ taskId, taskDesc, taskStat, taskPrior, onTaskDeleted, onTaskUpda
         </div>
       )}
 
-      {/* Edit form */}
       {editing && (
         <div className="EditFormCard">
           <textarea

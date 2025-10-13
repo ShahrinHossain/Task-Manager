@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../../public/style.css";
+import "./Side.css";
 import axios from "axios";
 import DetailsCard from "./DetailsCard";
 
@@ -13,20 +13,29 @@ const dayDate = today.getDate();
 
 function Side() {
   const [scoreData, setScoreData] = useState(null);
+  const [userInfo, setUserInfo] = useState({ bestscore: "" });
 
   useEffect(() => {
-    const fetchScore = async () => {
+    const fetchData = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get("http://127.0.0.1:8000/score", {
+        if (!token) return;
+
+        const scoreRes = await axios.get("http://127.0.0.1:8000/score", {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setScoreData(res.data);
+        setScoreData(scoreRes.data);
+
+        const userRes = await axios.get("http://127.0.0.1:8000/user", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setUserInfo({ bestscore: userRes.data.bestscore });
       } catch (err) {
-        console.error(err);
+        console.error("Error fetching data:", err);
       }
     };
-    fetchScore();
+
+    fetchData();
   }, []);
 
   return (
@@ -42,7 +51,7 @@ function Side() {
           todayScore={scoreData.today_score}
           thisWeekScores={scoreData.this_week_scores}
           previousWeeks={scoreData.previous_weeks}
-          highScore={100} // later you can replace with actual value from API
+          highScore={userInfo.bestscore} 
         />
       )}
     </div>
@@ -50,3 +59,4 @@ function Side() {
 }
 
 export default Side;
+

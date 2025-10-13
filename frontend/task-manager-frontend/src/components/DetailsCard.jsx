@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../public/style.css";
+import "./Side.css";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 function DetailsCard({ todayScore, thisWeekScores, previousWeeks, highScore }) {

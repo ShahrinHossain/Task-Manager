@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "../AdminDashboard.css";
-import "../UserDashboard.css";
+import "./LoginUserModal.css";
 
 const LoginUserModal = ({ onClose, onSuccess, onFail }) => {
   const [email, setEmail] = useState("");
@@ -61,7 +60,7 @@ const LoginUserModal = ({ onClose, onSuccess, onFail }) => {
           <button onClick={handleLogin} disabled={submitting}>
             {submitting ? "Logging in..." : "Login"}
           </button>
-          <button onClick={onClose} style={{ background: "#ddd", color: "#000" }}>
+          <button onClick={onClose}>
             Cancel
           </button>
         </div>

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./UserDashboard.css";
 import Task from "./components/Task";
 import TaskHeader from "./components/TaskHeader";
 import Side from "./components/Side";
+import "./UserDashboard.css";
 import { FaUserCircle } from "react-icons/fa";
 
 function UserDashboard() {
@@ -21,7 +21,7 @@ function UserDashboard() {
     fetchUserInfo();
   }, []);
 
-  // Fetch user info from backend
+
   const fetchUserInfo = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -45,7 +45,7 @@ function UserDashboard() {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
-        setMessage("❌ You are not logged in");
+        setMessage("You are not logged in");
         return;
       }
   
@@ -57,7 +57,6 @@ function UserDashboard() {
   
       if (!originalTasks.length) setOriginalTasks(data);
   
-      // Custom default sorting: ongoing -> due -> completed
       const statusOrder = { ongoing: 1, due: 2, completed: 3 };
       data.sort((a, b) => {
         const statusA = statusOrder[statusMap[a.status]] || 4;
@@ -81,7 +80,7 @@ function UserDashboard() {
       setTasks(data);
     } catch (error) {
       console.error(error);
-      setMessage(error.response?.data?.detail || "❌ Server error or network issue");
+      setMessage(error.response?.data?.detail || "Server error or network issue");
     }
   };
   
@@ -107,36 +106,32 @@ function UserDashboard() {
     <div className="Container-app">
       <div className="TopBar">
         <div className="AppName">DoneZone</div>
-
-        {/* Top-right mini menu icon */}
-        <div className="UserMenu">
-  <FaUserCircle
-    size={32}
-    className="UserIcon"
-  />
-  <button className="LogoutInlineBtn" onClick={handleLogout}>
-    Logout
-  </button>
-</div>
+          <div className="UserMenu">
+            <FaUserCircle
+              size={32}
+              className="UserIcon"
+            />
+            <button className="LogoutInlineBtn" onClick={handleLogout}>
+              Logout
+            </button>
+          </div>
       </div>
 
-      {/* Task header */}
       <div className="TaskHeading">
         <TaskHeader onTaskAdded={fetchTasks} />
       </div>
 
-      {/* Task list */}
       <div className="TaskBar">
         {tasks.length > 0 ? (
           tasks.map((item) => (
             <Task
               key={item.id}
-              taskId={item.id}              // pass taskId
+              taskId={item.id}              
               taskDesc={item.description}
               taskStat={statusMap[item.status] || "unknown"}
               taskPrior={priorityMap[item.priority] || "unknown"}
               onTaskDeleted={fetchTasks}  
-              onTaskUpdated={fetchTasks}       // pass the handler to refresh tasks
+              onTaskUpdated={fetchTasks}       
             />
           ))
         ) : (
@@ -145,7 +140,6 @@ function UserDashboard() {
       </div>
 
 
-      {/* Sidebar */}
       <div className="SideBar">
         <Side />
       </div>
