@@ -33,7 +33,7 @@ const Home = () => {
 
   return (
     <div>
-      <div className="AppName">DoneZone</div>
+      <div className="AppName">Welcome to DoneZone</div>
       {/* <div className="welcome-message">Welcome to DoneZone, where you can easily organize, track, and manage 
           all your tasks in one place and boost your productivity effortlessly.
           So hurry up and start being productive now!</div> */}
@@ -45,7 +45,7 @@ const Home = () => {
 
         {/* Demo image section */}
         <img 
-          src="/calender3.png" 
+          src="/welcomepage.png" 
           alt="App Demo" 
           className="demo-image" 
         />

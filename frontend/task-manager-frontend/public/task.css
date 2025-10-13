@@ -244,30 +244,39 @@
     background-color: #e99595;
 }
 
+.StatusDropdownContainer {
+    position: relative;
+    display: inline-block;
+  }
+  
 
 .StatusDropdown {
     position: absolute;
-    top: 100%;
-    margin-top: 1rem; /* right below the status card */
+    top: 110%; /* below the button */
     left: 0;
-    background-color: #f0f0f0;
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 128, 128, 0.2);
     border-radius: 0.5rem;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    width: 100%;
-    z-index: 100;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    width: max-content;
+    z-index: 1000;
+    overflow: hidden;
   }
   
   .StatusOption {
-    padding: 0.3rem 0.5rem;
+    padding: 0.5rem 1rem;
     cursor: pointer;
-    font-size: 0.7rem;
+    font-size: 0.8rem;
+    color: #000000; /* dark teal text */
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
   
   .StatusOption:hover {
-    background-color: #d1e9f5;
+    background-color: rgb(197, 221, 221); /* deep sea green */
+    color: rgb(0, 0, 0);
   }
   
-/* Edit form container below the task card */
+  
 .EditFormCard {
     margin-top: 0.5rem;
     padding: 0.8rem;
