@@ -25,6 +25,10 @@ class UserInfo(BaseModel):
     password: str
     model_config = ConfigDict(extra='allow')
 
+class UserUpdate(BaseModel):
+    name: str
+    email: EmailStr
+
 # Used when registering an admin
 class AdminInfo(BaseModel):
     email: EmailStr

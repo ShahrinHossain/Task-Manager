@@ -120,6 +120,20 @@ def hf_return_user_info(db, current_user):
         print("Error:", e)
         return {"message": "Error fetching user info"}
 
+def hf_edit_user_info(updated_user, db, current_user):
+    try:
+        changed_user_query = db.query(User).filter(User.id == current_user.id)
+        changed_user_info = changed_user_query.first()
+        if changed_user_info:
+            changed_user_query.update(updated_user.dict(), synchronize_session=False)
+            db.commit()
+            return {"message": "User update successful"}
+        else:
+            return {"message": "No user found"}
+    except Exception as e:
+        print("Error:", e)
+        return {"message": "Error updating user info"}
+
 
 # Adds a column for a user in the score table on first login of day
 def hf_initiate_daily_score(db, uid):

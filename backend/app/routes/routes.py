@@ -89,6 +89,14 @@ def get_user(db: Session = Depends(get_db), current_user = Depends(get_current_u
                             detail= user_info)
     return user_info
 
+@router.put("/edit_user", status_code= status.HTTP_202_ACCEPTED)
+def edit_user(db: Session = Depends(get_db), updated_user: UserUpdate = Body(...), current_user = Depends(get_current_user)):
+    message = hf_edit_user_info(updated_user, db, current_user)
+    if message == {"message": "No user found"}:
+        raise HTTPException(status_code= status.HTTP_404_NOT_FOUND,
+                            detail= message)
+    return message
+
 
 # User can see daily, weekly and best score
 @router.get("/score", status_code= status.HTTP_200_OK)

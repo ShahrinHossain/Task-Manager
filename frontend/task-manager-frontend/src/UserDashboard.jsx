@@ -110,6 +110,9 @@ function UserDashboard() {
             <FaUserCircle
               size={32}
               className="UserIcon"
+              onClick={() => {
+                window.location.href = "/user-profile"; 
+              }}
             />
             <button className="LogoutInlineBtn" onClick={handleLogout}>
               Logout
