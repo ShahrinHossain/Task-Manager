@@ -18,6 +18,10 @@ class TaskInfo(BaseModel):
 class StatusUpdate(BaseModel):
     status: int
 
+class PasswordUpdate(BaseModel):
+    old_pass: str
+    new_pass: str
+
 # Used when registering a user
 class UserInfo(BaseModel):
     name: str

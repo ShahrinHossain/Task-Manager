@@ -151,3 +151,19 @@ def hf_login_admin(user_creds: OAuth2PasswordRequestForm, db):
         return {"message": "An error has occurred"}
 
 
+# Changes the user password
+def hf_edit_password(old_password, new_password, db, current_user):
+    try:
+        user_info_query = db.query(User).filter(User.id == current_user.id)
+        user_info = user_info_query.first()
+        old_hashed_password = user_info.password
+        if verify_pass(old_password, old_hashed_password):
+            new_hashed_password = hash_pass(new_password)
+            user_info_query.update({"password" : new_hashed_password}, synchronize_session=False)
+            db.commit()
+            return {"message": "Password changed successfully"}
+        else:
+            return {"message": "Old password did not match"}
+    except Exception as e:
+        print(e)
+        return {"message": "Error changing password"}

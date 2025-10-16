@@ -80,3 +80,14 @@
     text-align: center;
   }
   
+  .dashboard-message {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: #a3f0a6; 
+    color: rgb(0, 0, 0);
+    padding: 10px 15px;
+    border-radius: 5px;
+    z-index: 10000;
+    box-shadow: 0px 2px 6px rgba(0,0,0,0.3);
+  }

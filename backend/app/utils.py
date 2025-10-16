@@ -120,6 +120,8 @@ def hf_return_user_info(db, current_user):
         print("Error:", e)
         return {"message": "Error fetching user info"}
 
+
+# Changes the user info
 def hf_edit_user_info(updated_user, db, current_user):
     try:
         changed_user_query = db.query(User).filter(User.id == current_user.id)
@@ -133,6 +135,7 @@ def hf_edit_user_info(updated_user, db, current_user):
     except Exception as e:
         print("Error:", e)
         return {"message": "Error updating user info"}
+
 
 
 # Adds a column for a user in the score table on first login of day
