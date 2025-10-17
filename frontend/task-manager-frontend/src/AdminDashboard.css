@@ -98,8 +98,8 @@ html, body {
   }
   
   .admin-buttons button {
-    padding: 1rem 3rem;
-    font-size: 1rem;
+    padding: 1rem 2rem;
+    font-size: 0.9rem;
     font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     border: none;
     border-radius: 6px;
@@ -117,7 +117,8 @@ html, body {
   .dashboard-message {
     position: fixed;
     bottom: 20px;
-    left: 20px;
+    left: 50%;
+    transform: translateX(-50%);
     background-color: #a3f0a6; 
     color: rgb(0, 0, 0);
     padding: 10px 15px;
@@ -125,6 +126,68 @@ html, body {
     z-index: 10000;
     box-shadow: 0px 2px 6px rgba(0,0,0,0.3);
   }
+
+  .kick-btn {
+    background-color: #ff4d4f;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background-color 0.2s ease;
+    font-family:  Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; 
+  }
+  
+  .kick-btn:hover {
+    background-color: #e04344;
+  }
+
+  .kick-area {
+    margin-top: 8px;
+  }
+  
+  .inline-confirm {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  
+  .inline-confirm span {
+    font-size: 0.9rem;
+    color: #333;
+  }
+  
+  .yes-btn, .no-btn{
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background-color 0.2s ease;
+    font-family:  Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; 
+  }
+
+  
+  .yes-btn {
+    background-color: #c87c7c;
+    color: rgb(255, 255, 255);
+  }
+  
+  .no-btn {
+    background-color: #7bb1d5;
+    color: rgb(255, 255, 255);
+  }
+
+  .yes-btn:hover {
+    background-color: #a65f5f;
+  }
+
+  .no-btn:hover {
+    background-color: #5a90c1;
+  }
+  
+  
 
 
   /*Responsive Adjustment*/

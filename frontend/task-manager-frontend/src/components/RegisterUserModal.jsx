@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "./RegisterUserModal.css";
 
 const RegisterUserModal = ({ isOpen, onClose, onSuccess }) => {
@@ -7,16 +8,27 @@ const RegisterUserModal = ({ isOpen, onClose, onSuccess }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [message, setMessage] = useState("");
+  const [modalMessage, setModalMessage] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+
+  const navigate = useNavigate();
 
   if (!isOpen) return null;
 
   const handleRegister = async () => {
     if (password !== confirmPassword) {
-      setMessage("Passwords do not match");
-      setTimeout(() => setMessage(""), 2000);
+      setModalMessage("Passwords do not match");
+      setTimeout(() => setModalMessage(""), 2000);
       return;
     }
+
+    if (email.trim().toLowerCase().endsWith("@donezone.com")) {
+      setModalMessage("You cannot use this email domain");
+      setTimeout(() => setModalMessage(""), 2000);
+      return;
+    }
+
+    setSubmitting(true);
 
     try {
       await axios.post("http://127.0.0.1:8000/auth/register", {
@@ -30,12 +42,38 @@ const RegisterUserModal = ({ isOpen, onClose, onSuccess }) => {
       setEmail("");
       setPassword("");
       setConfirmPassword("");
-      setMessage("");
+      setModalMessage("");
+      onClose();
+
     } catch (err) {
       console.error(err);
-      const msg = err.response?.data?.detail || "Registration failed";
-      setMessage(msg);
-      setTimeout(() => setMessage(""), 2000);
+
+      if (err.response?.status === 403) {
+        const msg =
+          err.response?.data?.detail?.message ||
+          err.response?.data?.message ||
+          "Email already in use or action forbidden.";
+        setModalMessage(msg);
+      } 
+      else if (err.response?.status === 422) {
+        const msg =
+          err.response?.data?.detail?.message ||
+          err.response?.data?.message ||
+          "Invalid input data.";
+        setModalMessage(msg);
+      }
+      else {
+        const msg =
+          err.response?.data?.detail?.message ||
+          err.response?.data?.message ||
+          "An unexpected server error occurred.";
+        navigate("/error", { state: { message: msg, code: 500 } });
+        return;
+      } 
+
+      setTimeout(() => setModalMessage(""), 2000);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -68,10 +106,14 @@ const RegisterUserModal = ({ isOpen, onClose, onSuccess }) => {
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
         <div className="urm-modal-buttons">
-          <button onClick={handleRegister}>Register</button>
-          <button onClick={onClose}>Cancel</button>
+          <button onClick={handleRegister} disabled={submitting}>
+            {submitting ? "Registering..." : "Register"}
+          </button>
+          <button onClick={onClose} disabled={submitting}>
+            Cancel
+          </button>
         </div>
-        {message && <p className="urm-message">{message}</p>}
+        {modalMessage && <p className="urm-message">{modalMessage}</p>}
       </div>
     </div>
   );

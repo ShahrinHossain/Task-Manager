@@ -18,6 +18,7 @@ class TaskInfo(BaseModel):
 class StatusUpdate(BaseModel):
     status: int
 
+# Used when password is changed
 class PasswordUpdate(BaseModel):
     old_pass: str
     new_pass: str
@@ -29,6 +30,7 @@ class UserInfo(BaseModel):
     password: str
     model_config = ConfigDict(extra='allow')
 
+# Used when updating a user information
 class UserUpdate(BaseModel):
     name: str
     email: EmailStr

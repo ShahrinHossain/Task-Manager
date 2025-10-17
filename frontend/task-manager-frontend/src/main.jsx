@@ -4,6 +4,7 @@ import Home from './Home.jsx';
 import UserDashboard from './UserDashboard.jsx';
 import AdminDashboard from './AdminDashboard.jsx';
 import UserProfile from './UserProfile.jsx';
+import ErrorPage from './ErrorPage.jsx';
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>   
@@ -12,6 +13,7 @@ createRoot(document.getElementById('root')).render(
       <Route path="/user-dashboard" element={<UserDashboard />} />
       <Route path="/admin-dashboard" element={<AdminDashboard />} />
       <Route path="/user-profile" element={<UserProfile />} />
+      <Route path="/error" element={<ErrorPage />} />
     </Routes>
   </BrowserRouter>
 );

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./UserProfile.css";
 
@@ -17,6 +18,8 @@ function UserProfile() {
   const [error, setError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [message, setMessage] = useState(""); 
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -73,8 +76,33 @@ function UserProfile() {
       setEditing(false);
     } catch (err) {
       console.error(err);
-      setError(err.response?.data?.detail?.message || "Failed to update user info");
+
+      if (err.response?.status == 403) {
+        const msg =
+          err.response?.data?.detail?.message ||
+          err.response?.data?.message ||
+          "Email already in use or action forbidden.";
+          showMessage(msg);
+      }
+      else if (err.response?.status == 422) {
+        const msg =
+          err.response?.data?.detail?.message ||
+          err.response?.data?.message ||
+          "Invalid input data.";
+          showMessage(msg);
+      }
+      else {
+        const msg =
+          err.response?.data?.detail?.message ||
+          err.response?.data?.message ||
+          "An unexpected server error occurred.";
+        navigate("/error", { state: { message: msg, code: 500 } });
+        return;
+      } 
+
+      
     } finally {
+      
       setSaving(false);
     }
   };
@@ -92,7 +120,7 @@ function UserProfile() {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.put(
-        "http://127.0.0.1:8000/edit_password",
+        "http://127.0.0.1:8000/auth/edit_password",
         {
           old_pass: passwordForm.old_pass,
           new_pass: passwordForm.new_pass,

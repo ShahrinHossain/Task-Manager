@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom"; 
 import "./LoginUserModal.css";
 
 const LoginUserModal = ({ onClose, onSuccess, onFail }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [submitting, setSubmitting] = useState(false);
+
+  const navigate = useNavigate(); 
 
   const handleLogin = async () => {
     setSubmitting(true);
@@ -28,13 +31,25 @@ const LoginUserModal = ({ onClose, onSuccess, onFail }) => {
       } else {
         onFail("Login failed");
       }
+
     } catch (err) {
       console.error(err);
+
+      if (err.response?.status === 500) {
+        const msg =
+          err.response?.data?.detail?.message ||
+          err.response?.data?.message ||
+          "An unexpected server error occurred.";
+        navigate("/error", { state: { message: msg, code: 500} });
+        return; 
+      }
+
       const msg =
         err.response?.data?.detail?.message ||
         err.response?.data?.message ||
         "Invalid credentials";
       onFail(msg);
+
     } finally {
       setSubmitting(false);
     }
@@ -60,9 +75,7 @@ const LoginUserModal = ({ onClose, onSuccess, onFail }) => {
           <button onClick={handleLogin} disabled={submitting}>
             {submitting ? "Logging in..." : "Login"}
           </button>
-          <button onClick={onClose}>
-            Cancel
-          </button>
+          <button onClick={onClose}>Cancel</button>
         </div>
       </div>
     </div>

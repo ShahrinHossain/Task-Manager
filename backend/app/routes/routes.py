@@ -89,19 +89,18 @@ def get_user(db: Session = Depends(get_db), current_user = Depends(get_current_u
                             detail= user_info)
     return user_info
 
+# User can edit own information
 @router.put("/edit_user", status_code= status.HTTP_202_ACCEPTED)
 def edit_user(db: Session = Depends(get_db), updated_user: UserUpdate = Body(...), current_user = Depends(get_current_user)):
     message = hf_edit_user_info(updated_user, db, current_user)
     if message == {"message": "No user found"}:
         raise HTTPException(status_code= status.HTTP_404_NOT_FOUND,
                             detail= message)
-    return message
-
-@router.put("/edit_password", status_code= status.HTTP_202_ACCEPTED)
-def edit_password(db: Session = Depends(get_db), update_password: PasswordUpdate = Body(...), current_user = Depends(get_current_user)):
-    message = hf_edit_password(update_password.old_pass, update_password.new_pass, db, current_user)
-    if message == {"message": "No user found"}:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+    elif message == {"message": "This email is already in use! Action failed"}:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+                            detail=message)
+    elif message == {"message": "Error updating user info"}:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                             detail=message)
     return message
 

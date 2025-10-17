@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "../AdminDashboard.css";
+import { useNavigate } from "react-router-dom";
+import "./RegisterUserModal.css";
 
 const RegisterAdminModal = ({ isOpen, onClose, onAdminRegistered }) => {
   const [name, setName] = useState("");
@@ -8,7 +9,15 @@ const RegisterAdminModal = ({ isOpen, onClose, onAdminRegistered }) => {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
 
+  const navigate = useNavigate();
+
   const handleSave = async () => {
+    if (email.trim().toLowerCase().endsWith("@donezone.com") == false) {
+      setMessage("Invalid email domain");
+      setTimeout(() => setMessage(""), 2000);
+      return;
+    }
+
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
@@ -29,12 +38,30 @@ const RegisterAdminModal = ({ isOpen, onClose, onAdminRegistered }) => {
       setEmail("");
       setPassword("");
       onClose(); 
-    } catch (error) {
-      console.error(error);
-      if (error.response) {
-        setMessage(error.response.data.detail || "Registration failed");
-      } else {
-        setMessage("Server error or network issue");
+    } catch (err) {
+      console.error(err);
+
+      if (err.response?.status === 403) {
+        const msg =
+          err.response?.data?.detail?.message ||
+          err.response?.data?.message ||
+          "Email already in use or action forbidden.";
+        setMessage(msg);
+      } 
+      else if (err.response?.status === 422) {
+        const msg =
+          err.response?.data?.detail?.message ||
+          err.response?.data?.message ||
+          "Invalid input data.";
+        setMessage(msg);
+      }
+      else {
+        const msg =
+          err.response?.data?.detail?.message ||
+          err.response?.data?.message ||
+          "An unexpected server error occurred.";
+        navigate("/error", { state: { message: msg, code: 500 } });
+        return;
       }
 
       setTimeout(() => setMessage(""), 2000);
@@ -44,8 +71,8 @@ const RegisterAdminModal = ({ isOpen, onClose, onAdminRegistered }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
+    <div className="urm-modal-overlay">
+      <div className="urm-modal-content">
         <h3>Register New Admin</h3>
         <input
           type="email"
@@ -59,11 +86,11 @@ const RegisterAdminModal = ({ isOpen, onClose, onAdminRegistered }) => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <div className="modal-buttons">
+        <div className="urm-modal-buttons">
           <button onClick={handleSave}>Save</button>
           <button onClick={onClose}>Cancel</button>
         </div>
-        {message && <p>{message}</p>}
+        {message && <p className="urm-message">{message}</p>}
       </div>
     </div>
   );

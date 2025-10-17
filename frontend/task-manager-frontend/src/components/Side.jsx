@@ -41,9 +41,9 @@ function Side() {
   return (
     <div>
       <div className="PictureCard">
-        <p1>{dayDate}</p1>
-        <p2>{monthName}</p2>
-        <p3>{dayName}</p3>
+        <div className="p1">{dayDate}</div>
+        <div className="p2">{monthName}</div>
+        <div className="p3">{dayName}</div>
       </div>
 
       {scoreData && (

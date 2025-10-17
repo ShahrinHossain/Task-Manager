@@ -83,7 +83,8 @@
   .dashboard-message {
     position: fixed;
     bottom: 20px;
-    left: 20px;
+    left: 50%;
+    transform: translateX(-50%);
     background-color: #a3f0a6; 
     color: rgb(0, 0, 0);
     padding: 10px 15px;

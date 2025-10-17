@@ -1,0 +1,76 @@
+.AppName{
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: rgb(255, 255, 255);
+    backdrop-filter: blur(1px);
+    border-radius: 0%;
+    font-size: clamp(1.5rem, 5vw, 3rem);
+    text-align: center;
+    animation: shine 3s linear infinite;
+    font-weight: bold;
+    z-index: 1000;
+    top: 0;
+  }
+  
+
+.error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    background: transparent;
+    color: #440404;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    padding: 1rem;
+  }
+  
+  .error-code {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #440404;
+    margin-bottom: 1rem;
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  .error-message {
+    font-size: 1.2rem;
+    color: #560404;
+    margin-bottom: 2rem;
+    max-width: 600px;
+    line-height: 1.5;
+  }
+  
+  .home-link {
+    background-color: #440404;
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .home-link:hover {
+    background-color: #e99595;
+  }
+
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .error-code {
+      font-size: 2.2rem;
+    }
+  
+    .error-message {
+      font-size: 1rem;
+      padding: 0 1rem;
+    }
+  
+    .home-link {
+      width: 80%;
+    }
+  }
+  

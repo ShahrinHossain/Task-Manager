@@ -27,7 +27,7 @@ const Home = () => {
   };
 
   const handleRegistrationSuccess = () => {
-    showMessage("Registration successful");
+    showMessage("Registration successful. You can log in now.");
     setTimeout(() => setIsRegisterOpen(false), 2000);
   };
 

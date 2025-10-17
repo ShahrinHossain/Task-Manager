@@ -90,6 +90,10 @@ def verify_pass(attempted_password: str, actual_password: str):
 # Registers a user by hashing password
 def hf_add_user(user: UserInfo, db):
     try:
+        user_info = db.query(User).filter(User.email == user.email).first()
+        if user_info:
+            return {"message": "Some account is using this email !"}
+
         user.password = hash_pass(user.password)
 
         db.add(User(**user.model_dump()))
@@ -102,8 +106,12 @@ def hf_add_user(user: UserInfo, db):
 
 
 # Registers an admin by hashing password
-def hf_add_admin(admin: AdminInfo, db):
+def hf_add_admin(admin: AdminInfo, db, current_admin):
     try:
+        admin_info = db.query(Admin).filter(Admin.email == admin.email).first()
+        if admin_info:
+            return {"message": "This admin email is already in use !"}
+
         admin.password = hash_pass(admin.password)
 
         db.add(Admin(**admin.model_dump()))

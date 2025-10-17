@@ -127,6 +127,9 @@ def hf_edit_user_info(updated_user, db, current_user):
         changed_user_query = db.query(User).filter(User.id == current_user.id)
         changed_user_info = changed_user_query.first()
         if changed_user_info:
+            wrong_email = db.query(User).filter(User.email == updated_user.email).first()
+            if wrong_email and wrong_email.id != current_user.id:
+                return {"message": "This email is already in use. Action failed."}
             changed_user_query.update(updated_user.dict(), synchronize_session=False)
             db.commit()
             return {"message": "User update successful"}
@@ -135,7 +138,6 @@ def hf_edit_user_info(updated_user, db, current_user):
     except Exception as e:
         print("Error:", e)
         return {"message": "Error updating user info"}
-
 
 
 # Adds a column for a user in the score table on first login of day
