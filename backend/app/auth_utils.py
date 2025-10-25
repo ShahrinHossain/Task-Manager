@@ -93,19 +93,28 @@ def verify_pass(attempted_password: str, actual_password: str):
 # Registers a user by hashing password
 def hf_add_user(user: UserInfo, db):
     try:
+        # Check if user already exists
         user_info = db.query(User).filter(User.email == user.email).one_or_none()
         if user_info:
             return {"message": "Some account is using this email !"}
 
         user.password = hash_pass(user.password)
 
-        db.add(User(**user.model_dump()))
+        new_user = User(**user.model_dump())
+        db.add(new_user)
         db.commit()
-        return {"message": "User addition successful"}
+        db.refresh(new_user)
+
+        hf_initiate_daily_score(db, new_user.id)
+        access_token = create_access_token(data={"id": new_user.id})
+
+        return {"access_token": access_token, "token_type": "bearer"}
+
     except Exception as e:
         db.rollback()
-        print('Error:', e)
+        print("Error:", e)
         return {"message": "An error has occurred"}
+
 
 
 # Registers an admin by hashing password

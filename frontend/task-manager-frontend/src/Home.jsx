@@ -26,10 +26,23 @@ const Home = () => {
     }, 2000);
   };
 
-  const handleRegistrationSuccess = () => {
-    showMessage("Registration successful. You can log in now.");
-    setTimeout(() => setIsRegisterOpen(false), 2000);
+
+  const handleRegistrationSuccess = (data) => {
+    if (data?.access_token) {
+      localStorage.setItem("token", data.access_token);
+      
+      
+      showMessage("Registration successful! Logging you in...");
+  
+      setTimeout(() => {
+        window.location.href = "/user-dashboard";
+      }, 1500);
+    } else {
+      showMessage("Registration successful. You can log in now.");
+      setTimeout(() => setIsRegisterOpen(false), 2000);
+    }
   };
+  
 
   return (
     <div>

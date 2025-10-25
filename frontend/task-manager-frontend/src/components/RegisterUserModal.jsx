@@ -31,20 +31,21 @@ const RegisterUserModal = ({ isOpen, onClose, onSuccess }) => {
     setSubmitting(true);
 
     try {
-      await axios.post("http://127.0.0.1:8000/auth/register", {
+      const res = await axios.post("http://127.0.0.1:8000/auth/register", {
         name: username,
         email,
         password,
       });
-
-      onSuccess();
+    
+      onSuccess(res.data);
+    
       setUsername("");
       setEmail("");
       setPassword("");
       setConfirmPassword("");
       setModalMessage("");
       onClose();
-
+    
     } catch (err) {
       console.error(err);
 
