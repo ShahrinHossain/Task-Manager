@@ -51,7 +51,7 @@ def hf_admin_stats(db, current_admin):
 def hf_kick_user(uid, db, current_admin):
     try:
         deleted_user_query = db.query(User).filter(User.id == uid)
-        deleted_user = deleted_user_query.first()
+        deleted_user = deleted_user_query.one_or_none()
         if deleted_user:
             deleted_user_query.delete(synchronize_session=False)
 

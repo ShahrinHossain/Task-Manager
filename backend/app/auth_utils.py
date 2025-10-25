@@ -7,13 +7,16 @@ from fastapi import Depends, status, HTTPException
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from app.database import get_db
+import os
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='login')
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60
+
+SECRET_KEY = os.getenv("SECRET_KEY")
+ALGORITHM = os.getenv("ALGORITHM", "HS256")
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 60))
+
 
 ### Helper functions for auth_routes
 
@@ -62,7 +65,7 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
                                           detail="Could not validate credentials",
                                           headers={"WWW-Authenticate": "Bearer"})
     token_data = verify_access_token(token, credentials_exception)
-    user_info = db.query(User).filter(User.id == token_data.id).first()
+    user_info = db.query(User).filter(User.id == token_data.id).one_or_none()
     return UserResponse.from_orm(user_info)
 
 
@@ -73,7 +76,7 @@ def get_current_admin(token: str = Depends(oauth2_scheme), db: Session = Depends
                                           headers={"WWW-Authenticate": "Bearer"})
     token_data = verify_access_token(token, credentials_exception)
 
-    admin_info = db.query(Admin).filter(Admin.id == token_data.id).first()
+    admin_info = db.query(Admin).filter(Admin.id == token_data.id).one_or_none()
     return AdminResponse.from_orm(admin_info)
 
 
@@ -90,7 +93,7 @@ def verify_pass(attempted_password: str, actual_password: str):
 # Registers a user by hashing password
 def hf_add_user(user: UserInfo, db):
     try:
-        user_info = db.query(User).filter(User.email == user.email).first()
+        user_info = db.query(User).filter(User.email == user.email).one_or_none()
         if user_info:
             return {"message": "Some account is using this email !"}
 
@@ -108,7 +111,7 @@ def hf_add_user(user: UserInfo, db):
 # Registers an admin by hashing password
 def hf_add_admin(admin: AdminInfo, db, current_admin):
     try:
-        admin_info = db.query(Admin).filter(Admin.email == admin.email).first()
+        admin_info = db.query(Admin).filter(Admin.email == admin.email).one_or_none()
         if admin_info:
             return {"message": "This admin email is already in use !"}
 
@@ -126,7 +129,7 @@ def hf_add_admin(admin: AdminInfo, db, current_admin):
 # Logins a user by checking credentials
 def hf_login_user(user_creds: OAuth2PasswordRequestForm, db):
     try:
-        user_info = db.query(User).filter(User.email == user_creds.username).first()
+        user_info = db.query(User).filter(User.email == user_creds.username).one_or_none()
         if user_info:
             if verify_pass(user_creds.password, user_info.password):
                 hf_initiate_daily_score(db, user_info.id)
@@ -144,7 +147,7 @@ def hf_login_user(user_creds: OAuth2PasswordRequestForm, db):
 # Logins an admin by checking credentials
 def hf_login_admin(user_creds: OAuth2PasswordRequestForm, db):
     try:
-        admin_info = db.query(Admin).filter(Admin.email == user_creds.username).first()
+        admin_info = db.query(Admin).filter(Admin.email == user_creds.username).one_or_none()
         if admin_info:
             if verify_pass(user_creds.password, admin_info.password):
                 access_token = create_access_token(data={"id": admin_info.id, "role": "admin"})
@@ -163,7 +166,7 @@ def hf_login_admin(user_creds: OAuth2PasswordRequestForm, db):
 def hf_edit_password(old_password, new_password, db, current_user):
     try:
         user_info_query = db.query(User).filter(User.id == current_user.id)
-        user_info = user_info_query.first()
+        user_info = user_info_query.one_or_none()
         old_hashed_password = user_info.password
         if verify_pass(old_password, old_hashed_password):
             new_hashed_password = hash_pass(new_password)

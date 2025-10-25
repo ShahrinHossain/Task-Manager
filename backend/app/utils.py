@@ -26,7 +26,7 @@ def hf_return_tasks(db, current_user):
 # Returns one task info of a user
 def hf_return_one_task(tid: int, db):
     try:
-        task_info = db.query(Task).filter(Task.id == tid).first()
+        task_info = db.query(Task).filter(Task.id == tid).one_or_none()
         if task_info:
             return task_info
         else:
@@ -53,7 +53,7 @@ def hf_add_task(new_task, db, current_user):
 def hf_update_task_status(tid: int, tstatus: int, db, current_user):
     try:
         changed_task_query = db.query(Task).filter(Task.id == tid)
-        changed_task = changed_task_query.first()
+        changed_task = changed_task_query.one_or_none()
         if changed_task:
             if changed_task.userid == current_user.id:
                 hf_update_score(tid, current_user.id, changed_task.priority, changed_task.priority, changed_task.status, tstatus, db)
@@ -73,7 +73,7 @@ def hf_update_task_status(tid: int, tstatus: int, db, current_user):
 def hf_update_task(tid: int, updated_task, db, current_user):
     try:
         changed_task_query = db.query(Task).filter(Task.id == tid)
-        changed_task = changed_task_query.first()
+        changed_task = changed_task_query.one_or_none()
         if changed_task:
             if changed_task.userid == current_user.id:
                 hf_update_score(tid, current_user.id, changed_task.priority, updated_task.priority, changed_task.status, updated_task.status, db)
@@ -111,7 +111,7 @@ def hf_delete_task(tid: int, db, current_user):
 # Returns user account info
 def hf_return_user_info(db, current_user):
     try:
-        user_info = db.query(User).filter(User.id == current_user.id).first()
+        user_info = db.query(User).filter(User.id == current_user.id).one_or_none()
         if user_info:
             return UserResponse.from_orm(user_info)
         else:
@@ -125,9 +125,9 @@ def hf_return_user_info(db, current_user):
 def hf_edit_user_info(updated_user, db, current_user):
     try:
         changed_user_query = db.query(User).filter(User.id == current_user.id)
-        changed_user_info = changed_user_query.first()
+        changed_user_info = changed_user_query.one_or_none()
         if changed_user_info:
-            wrong_email = db.query(User).filter(User.email == updated_user.email).first()
+            wrong_email = db.query(User).filter(User.email == updated_user.email).one_or_none()
             if wrong_email and wrong_email.id != current_user.id:
                 return {"message": "This email is already in use. Action failed."}
             changed_user_query.update(updated_user.dict(), synchronize_session=False)
@@ -148,7 +148,7 @@ def hf_initiate_daily_score(db, uid):
         existing = db.query(Score).filter(
             Score.userid == uid,
             Score.created == today
-        ).first()
+        ).one_or_none()
 
         if not existing:
             new_score = Score(
@@ -172,13 +172,13 @@ def hf_update_score(tid, uid, old_priority, new_priority, old_status, new_status
         todays_record = db.query(Score).filter(
             Score.created == today,
             Score.userid == uid
-        ).first()
+        ).one_or_none()
 
         if old_status == 3 and new_status != 3:
             completed_days_record = db.query(Score).filter(
                 Score.userid == uid,
                 Score.taskids.any(tid)
-            ).first()
+            ).one_or_none()
 
             if tid in completed_days_record.taskids:
                 completed_days_record.taskids = list(set(completed_days_record.taskids) - {tid})
@@ -195,7 +195,7 @@ def hf_update_score(tid, uid, old_priority, new_priority, old_status, new_status
             completed_days_record = db.query(Score).filter(
                 Score.userid == uid,
                 Score.taskids.any(tid)
-            ).first()
+            ).one_or_none()
 
             if tid in completed_days_record.taskids:
                 completed_days_record.score -= PRIORITY_SCORES.get(old_priority)
@@ -203,7 +203,7 @@ def hf_update_score(tid, uid, old_priority, new_priority, old_status, new_status
                 db.commit()
 
         max_score = db.query(func.max(Score.score)).filter(Score.userid == uid).scalar()
-        user_record = db.query(User).filter(User.id == uid).first()
+        user_record = db.query(User).filter(User.id == uid).one_or_none()
         user_record.bestscore = max_score
         db.commit()
 
@@ -220,7 +220,7 @@ def hf_return_score_info(db, current_user):
     todays_record = db.query(Score).filter(
         Score.userid == current_user.id,
         Score.created == today
-    ).first()
+    ).one_or_none()
     todays_score = todays_record.score if todays_record else 0
 
     monday = today - timedelta(days=weekday)
