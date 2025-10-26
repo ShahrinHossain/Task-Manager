@@ -157,8 +157,10 @@ Example /score Response:
 ```
 ---
 ## 🧩 Entity Relationship Diagram (ERD)
-```bash
-```
+Below is the Entity–Relationship Diagram (ERD) representing the database structure.
+
+![Database ERD](./frontend/task-manager-frontend/src/assets/ERD.png)
+
 
 ---
 ## 🎨 UI Highlights
