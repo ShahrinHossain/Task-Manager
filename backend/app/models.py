@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 from pydantic import BaseModel, EmailStr, ConfigDict
 from app.database import Base
 from sqlalchemy import Column, Integer, String
@@ -13,6 +13,7 @@ class TaskInfo(BaseModel):
     description: str
     status: int
     priority: int
+    target_date: datetime
 
 # Used when only task status is updated
 class StatusUpdate(BaseModel):
@@ -91,6 +92,7 @@ class Task(Base):
     userid = Column(Integer, nullable=False)
     created = Column(TIMESTAMP(timezone=True), nullable=False,
                      server_default=text('now()'))
+    target_date = Column(Date, default=date.today)
 
 # Used to store all the users
 class User(Base):

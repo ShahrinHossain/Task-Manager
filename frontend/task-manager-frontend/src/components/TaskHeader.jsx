@@ -1,120 +1,173 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
+import { BASE_URL } from "../config/config";
 import Button from 'react-bootstrap/Button';
 import { IoAdd } from "react-icons/io5";
 import { TfiFilter } from "react-icons/tfi";
 import { MdOutlineSort } from "react-icons/md";
+import { LiaUndoSolid } from "react-icons/lia";
+import { IoSearch } from "react-icons/io5";
 import './TaskHeader.css';
-import axios from "axios";
 
-const TaskHeader = ({ onTaskAdded }) => {
+const TaskHeader = ({ onTaskAdded, tasks = [] }) => {
+  const taskCount = tasks.length;
+  const [showSearch, setShowSearch] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+
   const [showInput, setShowInput] = useState(false);
   const [taskDesc, setTaskDesc] = useState("");
   const [priority, setPriority] = useState(1);
+  const [targetDate, setTargetDate] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   const [showFilter, setShowFilter] = useState(false);
   const [filterPriority, setFilterPriority] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
+  const [filterDate, setFilterDate] = useState("");
 
   const [showSort, setShowSort] = useState(false);
   const [sortField, setSortField] = useState(""); 
   const [sortOrder, setSortOrder] = useState("asc");
 
-  const handleAddTask = async () => {
-    if (!taskDesc) return;
-    setSubmitting(true);
-    try {
-      const token = localStorage.getItem("token");
-      const data = {
-        description: taskDesc,
-        priority: Number(priority),
-        status: 1, 
-      };
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const dd = String(today.getDate()).padStart(2, '0');
+  const defaultDate = `${yyyy}-${mm}-${dd}`;
 
-      const res = await axios.post("http://127.0.0.1:8000/add_task", data, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+  const taskDates = useMemo(() => {
+    if (!tasks || tasks.length === 0) return [];
+    const dates = tasks
+      .map(t => t.target_date)
+      .filter(Boolean)
+      .sort();
+    return [...new Set(dates)];
+  }, [tasks]);
 
-      if (res.data.message === "Task addition successful") {
-        onTaskAdded(); 
-        setTaskDesc("");
-        setShowInput(false);
-      } else {
-        alert(res.data.message || "Error adding task");
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Failed to add task");
-    } finally {
-      setSubmitting(false);
-    }
+  const clearFiltersAndSort = () => {
+    setFilterPriority("");
+    setFilterStatus("");
+    setFilterDate("");
+    setSortField("");
+    setSortOrder("asc");
+    setSearchTerm("");
+    onTaskAdded({ priority: "", status: "", date: "", sortBy: "", order: "asc", searchTerm: ""});
   };
 
+  const handleAddTaskClick = () => setShowInput(prev => !prev);
+
   const handleFilterClick = () => {
-    if (showInput) setShowInput(false);
-    if (showSort) setShowSort(false);
     setShowFilter(prev => !prev);
+    setShowSort(false);
+    setShowInput(false);
+    setShowSearch(false);
   };
 
   const handleSortClick = () => {
-    if (showInput) setShowInput(false);
-    if (showFilter) setShowFilter(false);
     setShowSort(prev => !prev);
+    setShowFilter(false);
+    setShowInput(false);
   };
 
+  const handleSearchClick = () => {
+    setShowSearch(prev => !prev);
+    setShowSort(false);
+    setShowFilter(false);
+    setShowInput(false);
+   };
+
   const applyFilter = () => {
-    onTaskAdded({ priority: filterPriority, status: filterStatus, sortBy: sortField, order: sortOrder });
+    onTaskAdded({
+      priority: filterPriority,
+      status: filterStatus,
+      date: filterDate,
+      sortBy: sortField,
+      order: sortOrder,
+    });
     setShowFilter(false);
   };
 
   const applySort = () => {
-    onTaskAdded({ priority: filterPriority, status: filterStatus, sortBy: sortField, order: sortOrder });
+    onTaskAdded({
+      priority: filterPriority,
+      status: filterStatus,
+      date: filterDate,
+      sortBy: sortField,
+      order: sortOrder,
+    });
     setShowSort(false);
   };
+
+  const applySearch = () => {
+    onTaskAdded({
+    priority: filterPriority,
+    status: filterStatus,
+    date: filterDate,
+    sortBy: sortField,
+    order: sortOrder,
+    searchTerm: searchTerm, 
+    });
+    setShowSearch(false);
+    };
 
   return (
     <div style={{ marginBottom: '1rem' }}>
       <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '15px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}> 
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <p>Add Task</p>
-          <Button className='NewTaskButton' onClick={() => { setShowInput(prev => !prev); if (showFilter) setShowFilter(false); if (showSort) setShowSort(false); }}>
-            <IoAdd />
-          </Button>
+          <Button className='NewTaskButton' onClick={handleAddTaskClick}><IoAdd /></Button>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}> 
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <p>Filter</p>
-          <Button className='FilterSortButton' onClick={handleFilterClick}>
-            <TfiFilter />
-          </Button>
+          <Button className='FilterSortButton' onClick={handleFilterClick}><TfiFilter /></Button>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}> 
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <p>Sort</p>
-          <Button className='FilterSortButton' onClick={handleSortClick}>
-            <MdOutlineSort />
-          </Button>
+          <Button className='FilterSortButton' onClick={handleSortClick}><MdOutlineSort /></Button>
         </div>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <p>Clear</p>
+          <Button className='FilterSortButton' onClick={clearFiltersAndSort}><LiaUndoSolid /></Button>
+        </div>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <p>Search</p>
+          <Button className='FilterSortButton' onClick={handleSearchClick}><IoSearch /></Button>
+        </div>
+
+        <div style={{ display: 'flex', marginRight:'10px', marginLeft: 'auto' , color:'#0970a0'  ,fontFamily:"Cambria, Cochin, Georgia, Times, 'Times New Roman', serif"}}>
+          <p>Total Tasks: {taskCount}</p> 
+        </div>
+
       </div>
+
+
 
       {showInput && (
         <div className="inline-add-task">
-          <input
-            type="text"
-            placeholder="Enter task description..."
-            value={taskDesc}
-            onChange={(e) => setTaskDesc(e.target.value)}
-          />
+          <input type="text" placeholder="Enter task description..." value={taskDesc} onChange={(e) => setTaskDesc(e.target.value)} />
           <select value={priority} onChange={(e) => setPriority(e.target.value)}>
             <option value={1}>High</option>
             <option value={2}>Medium</option>
             <option value={3}>Low</option>
           </select>
-          <button onClick={handleAddTask} disabled={submitting}>
-            {submitting ? "Adding..." : "Add"}
-          </button>
+          <input type="date" value={targetDate} min={defaultDate} onChange={(e) => setTargetDate(e.target.value)} />
         </div>
       )}
+
+      {showSearch && (
+        <div className="inline-add-task"> 
+            <input 
+            type="text" 
+            placeholder="Enter task name to search..." 
+            value={searchTerm} 
+            onChange={(e) => setSearchTerm(e.target.value)} 
+          />
+          <button onClick={applySearch}>Search</button>
+      </div>
+      )}  
 
       {showFilter && (
         <div className="inline-filter-task">
@@ -132,6 +185,15 @@ const TaskHeader = ({ onTaskAdded }) => {
             <option value={3}>Completed</option>
           </select>
 
+          <select value={filterDate} onChange={(e) => setFilterDate(e.target.value)}>
+            <option value="">Date (All)</option>
+            {taskDates.map(date => (
+              <option key={date} value={date}>
+                {new Date(date).toLocaleDateString()}
+              </option>
+            ))}
+          </select>
+
           <button onClick={applyFilter}>Filter</button>
         </div>
       )}
@@ -142,6 +204,7 @@ const TaskHeader = ({ onTaskAdded }) => {
             <option value="">Default</option>
             <option value="status">Status</option>
             <option value="priority">Priority</option>
+            <option value="target_date">Date</option>
           </select>
 
           <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>

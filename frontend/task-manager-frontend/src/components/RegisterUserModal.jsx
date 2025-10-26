@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { BASE_URL } from "../config/config";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./RegisterUserModal.css";
@@ -22,6 +23,12 @@ const RegisterUserModal = ({ isOpen, onClose, onSuccess }) => {
       return;
     }
 
+    if (password.length < 8) {
+      setModalMessage("Password must be at least 8 characters long");
+      setTimeout(() => setModalMessage(""), 2000);
+      return;
+    }
+
     if (email.trim().toLowerCase().endsWith("@donezone.com")) {
       setModalMessage("You cannot use this email domain");
       setTimeout(() => setModalMessage(""), 2000);
@@ -31,7 +38,7 @@ const RegisterUserModal = ({ isOpen, onClose, onSuccess }) => {
     setSubmitting(true);
 
     try {
-      const res = await axios.post("http://127.0.0.1:8000/auth/register", {
+      const res = await axios.post(`${BASE_URL}/auth/register`, {
         name: username,
         email,
         password,

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { BASE_URL } from "../config/config";
 import "./Side.css";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 

@@ -3,7 +3,7 @@
     margin-top: 10rem;  
     left: 5%;  
     width: 70%;
-    max-height: 60%;
+    max-height: 70%;
     overflow-y: auto; 
 }
 
@@ -47,6 +47,11 @@
     box-shadow: 0 0 10px rgba(0, 255, 217, 0.708);
 }
 
+.OverdueTask {
+    border: 2px solid #ff4d4f;
+    box-shadow: 0 0 5px rgba(255, 77, 79, 0.5);
+  }
+
 .TaskDescriptionCard { 
     position: relative;
     display: inline-block;
@@ -56,6 +61,20 @@
     font-size: 1rem;
     margin: 0.5rem;
     width: 70%;
+}
+
+.TaskDescLeft {
+    flex: 1;
+    font-weight: normal;
+    font-size: 1rem;
+  }
+  
+.TaskDescDate {
+    font-size: 0.8rem;
+    font-weight: 300;
+    color: #666;
+    margin-left: 1rem;
+    white-space: nowrap;
 }
 
 .TaskStatusCard{
@@ -90,6 +109,39 @@
 .TaskPriority.medium{
     color: rgb(215, 109, 109);
 }
+
+.TooltipContainer {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+  }
+  
+  .TooltipText {
+    visibility: hidden;
+    width: max-content;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #000000;
+    text-align: center;
+    border-radius: 4px;
+    padding: 3px 6px;
+    font-size: 0.75rem;
+    position: absolute;
+    z-index: 1000;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    white-space: nowrap;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: 100;
+  }
+  
+  .TooltipContainer:hover .TooltipText {
+    visibility: visible;
+    opacity: 1;
+  }
+  
 
 .EditButton{
     display: inline-block;

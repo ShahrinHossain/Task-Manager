@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { BASE_URL } from "./config/config";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./UserProfile.css";
@@ -27,7 +28,7 @@ function UserProfile() {
       setError("");
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get("http://127.0.0.1:8000/user", {
+        const res = await axios.get(`${BASE_URL}/user`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUser(res.data);
@@ -62,7 +63,7 @@ function UserProfile() {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.put(
-        "http://127.0.0.1:8000/edit_user",
+        `${BASE_URL}/edit_user`,
         { name: form.name, email: form.email },
         {
           headers: {
@@ -120,7 +121,7 @@ function UserProfile() {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.put(
-        "http://127.0.0.1:8000/auth/edit_password",
+        `${BASE_URL}/auth/edit_password`,
         {
           old_pass: passwordForm.old_pass,
           new_pass: passwordForm.new_pass,

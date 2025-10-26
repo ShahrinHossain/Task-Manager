@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { BASE_URL } from "../config/config";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./RegisterUserModal.css";
@@ -21,7 +22,7 @@ const RegisterAdminModal = ({ isOpen, onClose, onAdminRegistered }) => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        "http://127.0.0.1:8000/auth/register_admin",
+        `${BASE_URL}/auth/register_admin`,
         { name, email, password },
         {
           headers: {

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { BASE_URL } from "./config/config";
 import axios from "axios";
 import Task from "./components/Task";
 import TaskHeader from "./components/TaskHeader";
@@ -27,7 +28,7 @@ function UserDashboard() {
       const token = localStorage.getItem("token");
       if (!token) return;
 
-      const response = await axios.get("http://127.0.0.1:8000/user", {
+      const response = await axios.get(`${BASE_URL}/user`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -49,12 +50,17 @@ function UserDashboard() {
         return;
       }
   
-      const response = await axios.get("http://127.0.0.1:8000/tasks", {
+      const response = await axios.get(`${BASE_URL}/tasks`, {
         headers: { Authorization: `Bearer ${token}` },
       });
   
       let data = response.data;
-  
+      
+      if (options.searchTerm) { 
+              data = data.filter(t => 
+              t.description.toLowerCase().includes(options.searchTerm.toLowerCase())
+          );
+              }
       if (!originalTasks.length) setOriginalTasks(data);
   
       const statusOrder = { ongoing: 1, due: 2, completed: 3 };
@@ -66,11 +72,25 @@ function UserDashboard() {
   
       if (options.priority) data = data.filter(t => t.priority === Number(options.priority));
       if (options.status) data = data.filter(t => t.status === Number(options.status));
+      if (options.date) data = data.filter(t => t.target_date === options.date);
   
       if (options.sortBy) {
         data.sort((a, b) => {
           if (options.sortBy === "priority") return (a.priority - b.priority) * (options.order === "asc" ? 1 : -1);
           if (options.sortBy === "status") return (a.status - b.status) * (options.order === "asc" ? 1 : -1);
+          if (options.sortBy === "target_date") {
+
+          const dateA = a.target_date || '9999-12-31';
+          const dateB = b.target_date || '9999-12-31';
+            
+          let comparison = 0;
+          if (dateA > dateB) {
+            comparison = 1;
+            } else if (dateA < dateB) {
+            comparison = -1;
+            }
+            return comparison * (options.order === "asc" ? 1 : -1);
+          }
           return 0;
         });
       }
@@ -83,12 +103,20 @@ function UserDashboard() {
       setMessage(error.response?.data?.detail || "Server error or network issue");
     }
   };
+
+  const formatDate = (isoDate) => {
+    if (!isoDate) return "No date";
+    const d = new Date(isoDate);
+    return `${d.getDate().toString().padStart(2,'0')}/${
+             (d.getMonth()+1).toString().padStart(2,'0')}/${
+             d.getFullYear()}`;
+  };
   
 
   const handleLogout = async () => {
     try {
       const token = localStorage.getItem("token");
-      await axios.post("http://127.0.0.1:8000/auth/logout", {}, { headers: { Authorization: `Bearer ${token}` } });
+      await axios.post(`${BASE_URL}/auth/logout`, {}, { headers: { Authorization: `Bearer ${token}` } });
 
       setMessage("Logout successful");
       setTimeout(() => {
@@ -107,13 +135,16 @@ function UserDashboard() {
       <div className="TopBar">
         <div className="AppName">DoneZone</div>
           <div className="UserMenu">
-            <FaUserCircle
-              size={32}
-              className="UserIcon"
-              onClick={() => {
-                window.location.href = "/user-profile"; 
-              }}
-            />
+            <div className="TooltipContainer">
+              <FaUserCircle
+                size={32}
+                className="UserIcon"
+                onClick={() => {
+                  window.location.href = "/user-profile"; 
+                }}
+              />
+              <span className="TooltipText">Profile</span>
+            </div>
             <button className="LogoutInlineBtn" onClick={handleLogout}>
               Logout
             </button>
@@ -121,7 +152,7 @@ function UserDashboard() {
       </div>
 
       <div className="TaskHeading">
-        <TaskHeader onTaskAdded={fetchTasks} />
+        <TaskHeader onTaskAdded={fetchTasks} tasks={tasks} />
       </div>
 
       <div className="TaskBar">
@@ -133,6 +164,7 @@ function UserDashboard() {
               taskDesc={item.description}
               taskStat={statusMap[item.status] || "unknown"}
               taskPrior={priorityMap[item.priority] || "unknown"}
+              taskDate={formatDate(item.target_date)} 
               onTaskDeleted={fetchTasks}  
               onTaskUpdated={fetchTasks}       
             />

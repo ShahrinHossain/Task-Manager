@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { BASE_URL } from "../config/config";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"; 
 import "./LoginUserModal.css";
@@ -17,7 +18,7 @@ const LoginUserModal = ({ onClose, onSuccess, onFail }) => {
       data.append("username", email);
       data.append("password", password);
 
-      const res = await axios.post("http://127.0.0.1:8000/auth/login", data, {
+      const res = await axios.post(`${BASE_URL}/auth/login`, data, {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
       });
 

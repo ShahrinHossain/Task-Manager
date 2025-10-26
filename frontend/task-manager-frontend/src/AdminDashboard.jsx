@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { BASE_URL } from "./config/config";
 import axios from "axios";
 import RegisterAdminModal from "./components/RegisterAdminModal";
 import "./AdminDashboard.css";
@@ -16,7 +17,7 @@ const AdminDashboard = () => {
   const fetchStats = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://127.0.0.1:8000/admin/stats", {
+      const response = await axios.get(`${BASE_URL}admin/stats`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -40,7 +41,7 @@ const AdminDashboard = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        "http://127.0.0.1:8000/auth/logout",
+        `${BASE_URL}/auth/logout`,
         {},
         {
           headers: {
@@ -67,7 +68,7 @@ const AdminDashboard = () => {
     setDeleting(true);
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://127.0.0.1:8000/admin/kick/${selectedUserId}`, {
+      await axios.delete(`${BASE_URL}/admin/kick/${selectedUserId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

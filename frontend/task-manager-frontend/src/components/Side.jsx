@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { BASE_URL } from "../config/config";
 import "./Side.css";
 import axios from "axios";
 import DetailsCard from "./DetailsCard";
@@ -21,12 +22,12 @@ function Side() {
         const token = localStorage.getItem("token");
         if (!token) return;
 
-        const scoreRes = await axios.get("http://127.0.0.1:8000/score", {
+        const scoreRes = await axios.get(`${BASE_URL}/score`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setScoreData(scoreRes.data);
 
-        const userRes = await axios.get("http://127.0.0.1:8000/user", {
+        const userRes = await axios.get(`${BASE_URL}/user`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUserInfo({ bestscore: userRes.data.bestscore });
